@@ -20,7 +20,7 @@ const Segments: React.FC<SegmentsProps> = ({ addSegment }) => {
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Type Clausy-name here."
+          placeholder="add .Claus"
         />
         <button onClick={handleAddSegment}>Add Santa Contender!</button>
       </div>
