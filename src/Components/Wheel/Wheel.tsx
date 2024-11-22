@@ -1,83 +1,69 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import './Wheel.css';
 
-type WheelProps = {
-  segments: { name: string, color: string }[];  // Change segments to include colors
-  onWinner: (index: number) => void;  // Callback for winner
-  flashingIndex: number | null; // Add flashing index prop to track winner
-};
+interface Segment {
+  name: string;
+  color: string;
+}
 
-const Wheel: React.FC<WheelProps> = ({ segments, onWinner, flashingIndex }) => {
+interface WheelProps {
+  segments: Segment[];
+  setFlashingColor: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor }) => {
   const [selectedSegment, setSelectedSegment] = useState<string | null>(null);
+  const [flashingColor, setFlashingColorState] = useState<string | null>(null);
   const wheelRef = useRef<HTMLDivElement>(null);
 
   const spinWheel = () => {
-    const randomSpin = Math.floor(500 + Math.random() * 1000); // Spin angle
+    const baseSpin = Math.floor(500 + Math.random() * 2000);
+    const additionalSpins = Math.floor(3 + Math.random() * 5) * 360; 
+    const randomSpin = baseSpin + additionalSpins; 
+  
     if (wheelRef.current) {
       wheelRef.current.style.transition = 'transform 4s ease-out';
-      wheelRef.current.style.transform = `rotate(${randomSpin}deg)`;
-
-      // Determine winning segment
+      wheelRef.current.style.transform = `rotate(${randomSpin}deg)`; 
+  
       setTimeout(() => {
         const winningAngle = randomSpin % 360;
         const selectedIndex = Math.floor(
           (segments.length - winningAngle / (360 / segments.length)) % segments.length
         );
-        setSelectedSegment(segments[selectedIndex].name);
-        onWinner(selectedIndex); // Notify parent with winner index
-      }, 4000); // Sync with animation time
+        const winner = segments[selectedIndex];
+        setSelectedSegment(winner.name);
+        setFlashingColor(winner.color);
+      }, 4000); 
     }
   };
-
-  // Generate conic gradient dynamically based on segments
+  
   const gradient = `conic-gradient(${segments
     .map((segment, index) => {
       const angle = 360 / segments.length;
       const startAngle = angle * index;
       const endAngle = angle * (index + 1);
-      const flashColor = flashingIndex === index ? 'white' : segment.color; // Change color when flashing
-      return `${flashColor} ${startAngle}deg ${endAngle}deg`;
+      return `${segment.color} ${startAngle}deg ${endAngle}deg`;
     })
     .join(', ')})`;
 
+  useEffect(() => {
+    if (flashingColor) {
+      const timer = setTimeout(() => setFlashingColor(null), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [flashingColor]);
+
   return (
     <div className="wheel-container">
-      {/* Arrow */}
       <div className="arrow"></div>
 
-      {/* Wheel */}
-      <div className="wheel" ref={wheelRef} style={{ background: gradient }} />
+      <div
+        className={`wheel ${flashingColor ? 'flashing' : ''}`}
+        ref={wheelRef}
+        style={{ background: gradient }}
+      ></div>
 
-      <button onClick={spinWheel}>Spin the Wheel</button>
-      {selectedSegment && <p>Winner: {selectedSegment}</p>}
-
-      <style>{`
-        .wheel-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          position: relative;
-        }
-        .wheel {
-          width: 300px;
-          height: 300px;
-          border-radius: 50%;
-          position: relative;
-          overflow: hidden;
-          border: 5px solid #333;
-          transition: transform 4s ease-out;
-        }
-        .arrow {
-          width: 0;
-          height: 0;
-          border-left: 20px solid transparent;
-          border-right: 20px solid transparent;
-          border-bottom: 20px solid red;
-          position: absolute;
-          top: -30px;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-      `}</style>
+      <button onClick={spinWheel}>Spin the wheel!</button>
     </div>
   );
 };

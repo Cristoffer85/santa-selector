@@ -1,0 +1,70 @@
+.wheel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  
+  .wheel {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    border: 5px solid #333;
+    transition: transform 4s ease-out;
+  }
+  
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .wheel.flashing {
+    animation: flashColor 1s infinite;
+  }
+  
+  @keyframes flashColor {
+    0% {
+      background-color: transparent;
+    }
+    50% {
+      background-color: var(--flashing-color);
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
+  
+  .wheel {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    transition: transform 4s ease-out;
+    border: 5px solid #333;
+  }
+  
+  .arrow {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid red;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+  }
+  
