@@ -2,15 +2,25 @@ import React, { useState } from 'react';
 import Wheel from './Components/Wheel/Wheel';
 
 const App: React.FC = () => {
-  const [segments, setSegments] = useState<string[]>([]);
+  const [segments, setSegments] = useState<{ name: string; color: string }[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
 
   // Add a new segment to the wheel
   const handleAddSegment = () => {
     if (inputValue.trim()) {
-      setSegments([...segments, inputValue.trim()]);
+      setSegments([...segments, { name: inputValue.trim(), color: getRandomColor() }]);
       setInputValue(''); // Clear input after adding
     }
+  };
+
+  // Function to generate a random color
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   };
 
   return (

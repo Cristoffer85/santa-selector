@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 type WheelProps = {
-  segments: string[];
+  segments: { name: string, color: string }[];  // Change segments to include colors
 };
 
 const Wheel: React.FC<WheelProps> = ({ segments }) => {
@@ -20,10 +20,20 @@ const Wheel: React.FC<WheelProps> = ({ segments }) => {
         const selectedIndex = Math.floor(
           (segments.length - winningAngle / (360 / segments.length)) % segments.length
         );
-        setSelectedSegment(segments[selectedIndex]);
+        setSelectedSegment(segments[selectedIndex].name);
       }, 4000); // Sync with animation time
     }
   };
+
+  // Generate conic gradient dynamically based on segments
+  const gradient = `conic-gradient(${segments
+    .map((segment, index) => {
+      const angle = 360 / segments.length;
+      const startAngle = angle * index;
+      const endAngle = angle * (index + 1);
+      return `${segment.color} ${startAngle}deg ${endAngle}deg`;
+    })
+    .join(', ')})`;
 
   return (
     <div className="wheel-container">
@@ -31,25 +41,14 @@ const Wheel: React.FC<WheelProps> = ({ segments }) => {
       <div className="arrow"></div>
 
       {/* Wheel */}
-      <div className="wheel" ref={wheelRef}>
-        {segments.map((segment, index) => (
-          <div
-            key={index}
-            className="segment"
-            style={{
-              transform: `rotate(${(index * 360) / segments.length}deg)`,
-              backgroundColor: index % 2 === 0 ? '#f3a' : '#3af',
-            }}
-          >
-            {segment}
-          </div>
-        ))}
+      <div className="wheel" ref={wheelRef} style={{ background: gradient }}>
+        {/* Segments are automatically handled by the gradient */}
       </div>
 
       <button onClick={spinWheel}>Spin the Wheel</button>
       {selectedSegment && <p>Winner: {selectedSegment}</p>}
 
-      <style jsx>{`
+      <style>{`
         .wheel-container {
           display: flex;
           flex-direction: column;
@@ -63,20 +62,7 @@ const Wheel: React.FC<WheelProps> = ({ segments }) => {
           position: relative;
           overflow: hidden;
           border: 5px solid #333;
-        }
-        .segment {
-          width: 50%;
-          height: 50%;
-          position: absolute;
-          top: 0;
-          left: 50%;
-          transform-origin: 0% 100%;
-          clip-path: polygon(0 0, 100% 0, 50% 100%);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          color: #fff;
-          font-weight: bold;
+          transition: transform 4s ease-out;
         }
         .arrow {
           width: 0;
