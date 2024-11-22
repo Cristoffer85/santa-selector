@@ -42,7 +42,37 @@ const Wheel: React.FC<WheelProps> = ({ segments }) => {
 
       {/* Wheel */}
       <div className="wheel" ref={wheelRef} style={{ background: gradient }}>
-        {/* Segments are automatically handled by the gradient */}
+        {/* Render the segment names evenly spaced around the wheel */}
+        {segments.map((segment, index) => {
+          const angle = (360 / segments.length) * index;
+          const labelAngle = angle + (360 / segments.length) / 2; // Center the text in the segment
+          const offset = 120; // Radius offset for text placement
+
+          // Calculate x and y positions for each segment's text
+          const x = offset * Math.cos((labelAngle * Math.PI) / 180); // X position based on angle
+          const y = offset * Math.sin((labelAngle * Math.PI) / 180); // Y position based on angle
+
+          return (
+            <div
+              key={segment.name}
+              className="segment-name"
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: `translate(-50%, -50%) translate(${x}px, ${y}px)`,
+                transformOrigin: 'center',
+                color: 'white',
+                fontWeight: 'bold',
+                textAlign: 'center',
+                pointerEvents: 'none',
+                width: '60px',  // Adjust to fit your text size
+              }}
+            >
+              {segment.name}
+            </div>
+          );
+        })}
       </div>
 
       <button onClick={spinWheel}>Spin the Wheel</button>
@@ -74,6 +104,14 @@ const Wheel: React.FC<WheelProps> = ({ segments }) => {
           top: -30px;
           left: 50%;
           transform: translateX(-50%);
+        }
+        .segment-name {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform-origin: center;
+          font-size: 14px;
+          color: white;
         }
       `}</style>
     </div>
