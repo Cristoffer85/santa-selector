@@ -2,9 +2,11 @@ import React, { useState, useRef } from 'react';
 
 type WheelProps = {
   segments: { name: string, color: string }[];  // Change segments to include colors
+  onWinner: (index: number) => void;  // Callback for winner
+  flashingIndex: number | null; // Add flashing index prop to track winner
 };
 
-const Wheel: React.FC<WheelProps> = ({ segments }) => {
+const Wheel: React.FC<WheelProps> = ({ segments, onWinner, flashingIndex }) => {
   const [selectedSegment, setSelectedSegment] = useState<string | null>(null);
   const wheelRef = useRef<HTMLDivElement>(null);
 
@@ -21,6 +23,7 @@ const Wheel: React.FC<WheelProps> = ({ segments }) => {
           (segments.length - winningAngle / (360 / segments.length)) % segments.length
         );
         setSelectedSegment(segments[selectedIndex].name);
+        onWinner(selectedIndex); // Notify parent with winner index
       }, 4000); // Sync with animation time
     }
   };
@@ -31,7 +34,8 @@ const Wheel: React.FC<WheelProps> = ({ segments }) => {
       const angle = 360 / segments.length;
       const startAngle = angle * index;
       const endAngle = angle * (index + 1);
-      return `${segment.color} ${startAngle}deg ${endAngle}deg`;
+      const flashColor = flashingIndex === index ? 'white' : segment.color; // Change color when flashing
+      return `${flashColor} ${startAngle}deg ${endAngle}deg`;
     })
     .join(', ')})`;
 
@@ -41,39 +45,7 @@ const Wheel: React.FC<WheelProps> = ({ segments }) => {
       <div className="arrow"></div>
 
       {/* Wheel */}
-      <div className="wheel" ref={wheelRef} style={{ background: gradient }}>
-        {/* Render the segment names evenly spaced around the wheel */}
-        {segments.map((segment, index) => {
-          const angle = (360 / segments.length) * index;
-          const labelAngle = angle + (360 / segments.length) / 2; // Center the text in the segment
-          const offset = 120; // Radius offset for text placement
-
-          // Calculate x and y positions for each segment's text
-          const x = offset * Math.cos((labelAngle * Math.PI) / 180); // X position based on angle
-          const y = offset * Math.sin((labelAngle * Math.PI) / 180); // Y position based on angle
-
-          return (
-            <div
-              key={segment.name}
-              className="segment-name"
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: `translate(-50%, -50%) translate(${x}px, ${y}px)`,
-                transformOrigin: 'center',
-                color: 'white',
-                fontWeight: 'bold',
-                textAlign: 'center',
-                pointerEvents: 'none',
-                width: '60px',  // Adjust to fit your text size
-              }}
-            >
-              {segment.name}
-            </div>
-          );
-        })}
-      </div>
+      <div className="wheel" ref={wheelRef} style={{ background: gradient }} />
 
       <button onClick={spinWheel}>Spin the Wheel</button>
       {selectedSegment && <p>Winner: {selectedSegment}</p>}
@@ -104,14 +76,6 @@ const Wheel: React.FC<WheelProps> = ({ segments }) => {
           top: -30px;
           left: 50%;
           transform: translateX(-50%);
-        }
-        .segment-name {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform-origin: center;
-          font-size: 14px;
-          color: white;
         }
       `}</style>
     </div>

@@ -4,6 +4,7 @@ import Wheel from './Components/Wheel/Wheel';
 const App: React.FC = () => {
   const [segments, setSegments] = useState<{ name: string; color: string }[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
+  const [flashingIndex, setFlashingIndex] = useState<number | null>(null); // Track the winning segment
 
   // Add a new segment to the wheel
   const handleAddSegment = () => {
@@ -23,6 +24,14 @@ const App: React.FC = () => {
     return color;
   };
 
+  // Handle flashing after the winner is determined
+  const handleWinner = (index: number) => {
+    setFlashingIndex(index);
+    setTimeout(() => {
+      setFlashingIndex(null); // Stop flashing after a short time
+    }, 1000); // Flashing duration
+  };
+
   return (
     <div className="app">
       <h1>Wheel of Fortune</h1>
@@ -39,7 +48,36 @@ const App: React.FC = () => {
       </div>
 
       {/* Display the wheel with the dynamic segments */}
-      <Wheel segments={segments} />
+      <Wheel segments={segments} onWinner={handleWinner} flashingIndex={flashingIndex} />
+
+      {/* List below the wheel */}
+      <div className="segments-list">
+        <h2>Segments</h2>
+        <ul>
+          {segments.map((segment, index) => (
+            <li
+              key={index}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                animation: flashingIndex === index ? 'flash 0.5s alternate infinite' : 'none',
+              }}
+            >
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: segment.color,
+                  marginRight: '10px',
+                  borderRadius: '50%',
+                  animation: flashingIndex === index ? 'flash 0.5s alternate infinite' : 'none',
+                }}
+              ></div>
+              <span>{segment.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       <style>{`
         .app {
@@ -62,6 +100,29 @@ const App: React.FC = () => {
           padding: 8px 12px;
           font-size: 16px;
           cursor: pointer;
+        }
+        .segments-list {
+          margin-top: 20px;
+        }
+        .segments-list ul {
+          list-style: none;
+          padding: 0;
+        }
+        .segments-list li {
+          font-size: 16px;
+          margin-bottom: 10px;
+        }
+        /* Flashing animation */
+        @keyframes flash {
+          0% {
+            background-color: transparent;
+          }
+          50% {
+            background-color: white; /* You can change this color to something else if you prefer */
+          }
+          100% {
+            background-color: transparent;
+          }
         }
       `}</style>
     </div>
