@@ -11,22 +11,44 @@
   height: 300px;
   border-radius: 50%;
   transition: transform 4s ease-out;
-  border: 6px solid silver; /* Silver color border */
-  background-clip: padding-box; /* Ensures the border color is visible */
-  box-shadow: 0 0px 32px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.3); /* Adds a metallic effect */
+  border: 6px solid silver; 
+  background-clip: padding-box; 
+  box-shadow: 0 0px 32px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.3);
+  z-index: 1;
 }
 
 .arrow {
-  width: 60px; /* Adjust the size as needed */
+  width: 60px; 
   height: auto;
   position: absolute;
-  top: -45px; /* Adjust the position as needed */
+  top: -45px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
 }
 
 .spin-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 32px;
+  cursor: pointer;
+  background-color: #ff0000; 
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 15px;
+  transition: background-color 0.3s ease;
+  position: absolute;
+  right: -140px; 
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.spin-button:hover {
+  background-color: #45a049;
+}
+
+.new-round-button {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
@@ -36,12 +58,8 @@
   border: none;
   border-radius: 15px;
   transition: background-color 0.3s ease;
-  position: absolute;
-  right: -100px; /* Adjust this value as needed */
-  top: 50%;
-  transform: translateY(-50%);
 }
 
-.spin-button:hover {
+.new-round-button:hover {
   background-color: #45a049;
 }

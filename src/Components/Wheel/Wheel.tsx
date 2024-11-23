@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import './Wheel.css';
 import arrowImage from '../../assets/wheelarrow.png';
 
@@ -10,12 +10,17 @@ interface Segment {
 interface WheelProps {
   segments: Segment[];
   setFlashingColor: React.Dispatch<React.SetStateAction<string | null>>;
+  onSpinStart: () => void;
+  onSpinEnd: () => void;
+  showSpinButton: boolean;
 }
 
-const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor }) => {
+const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, onSpinEnd, showSpinButton }) => {
   const wheelRef = useRef<HTMLDivElement>(null);
 
   const spinWheel = () => {
+    onSpinStart();
+
     const baseSpin = Math.floor(500 + Math.random() * 2000);
     const additionalSpins = Math.floor(3 + Math.random() * 5) * 360; 
     const randomSpin = baseSpin + additionalSpins; 
@@ -31,6 +36,7 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor }) => {
         );
         const winner = segments[selectedIndex];
         setFlashingColor(winner.color);
+        onSpinEnd();
       }, 4000); 
     }
   };
@@ -44,22 +50,15 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor }) => {
     })
     .join(', ')})`;
 
-  useEffect(() => {
-    if (setFlashingColor) {
-      const timer = setTimeout(() => setFlashingColor(null), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [setFlashingColor]);
-
   return (
     <div className="wheel-container">
       <img src={arrowImage} alt="Arrow" className="arrow" />
       <div
         className="wheel"
         ref={wheelRef}
-        style={{ background: gradient }}
+        style={{ background: segments.length > 0 ? gradient : 'none' }}
       ></div>
-      <button className="spin-button" onClick={spinWheel}>Spin!</button>
+      {showSpinButton && <button className="spin-button" onClick={spinWheel}>Spin!</button>}
     </div>
   );
 };

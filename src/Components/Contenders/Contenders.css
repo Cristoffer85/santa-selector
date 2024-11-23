@@ -33,10 +33,14 @@
     font-size: 16px;
     cursor: pointer;
     background-color: #4CAF50; 
-    color: white;
+    color: rgb(241, 241, 241);
+    font-weight: 400;
     border: none;
     border-radius: 15px;
     transition: background-color 0.3s ease;
     position: relative;
+  }
+  .addcontender-button:hover {
+    background-color: #9dd1a0;
   }
   
