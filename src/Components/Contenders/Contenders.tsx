@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Segments.css';
+import './Contenders.css';
 
 export interface Segment {
   name: string;

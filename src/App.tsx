@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Wheel from './Components/Wheel/Wheel';
-import Segments, { Segment } from './Components/Segments/Segments';
-import SegmentList from './Components/SegmentList/SegmentList';
+import Segments, { Segment } from './Components/Contenders/Contenders';
+import SegmentList from './Components/ContenderList/ContenderList';
 import './App.css';
 
 const App: React.FC = () => {
