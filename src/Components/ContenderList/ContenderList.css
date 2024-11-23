@@ -1,38 +1,37 @@
 .segment-list {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .segment-list ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .segment-list li {
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    color: white;
-  }
-  
-  .segment-list h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-  }
+  margin-top: 20px;
+  text-align: center;
+}
 
-  @keyframes flashColor {
-    0% {
-      background-color: inherit;
-      filter: brightness(1);
-    }
-    50% {
-      background-color: inherit;
-      filter: brightness(1.5);
-    }
-    100% {
-      background-color: inherit;
-      filter: brightness(1);
-    }
+.segment-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.segment-list li {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  color: white;
+}
+
+.segment-list h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+@keyframes flashColor {
+  0% {
+    filter: brightness(1);
   }
-  
-  
+  50% {
+    filter: brightness(2);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+.flashing {
+  animation: flashColor 0.18s infinite; /* Flash every 0.1 seconds */
+}

@@ -19,7 +19,7 @@ const SegmentList: React.FC<SegmentListProps> = ({ segments, flashingColor }) =>
       const winnerSegment = segments.find((segment) => segment.color === flashingColor);
       if (winnerSegment) {
         setFlashingSegment(winnerSegment.name);
-        const timer = setTimeout(() => setFlashingSegment(null), 2000); 
+        const timer = setTimeout(() => setFlashingSegment(null), 3000); 
         return () => clearTimeout(timer);
       }
     }
@@ -31,10 +31,8 @@ const SegmentList: React.FC<SegmentListProps> = ({ segments, flashingColor }) =>
         {segments.map((segment, index) => (
           <li
             key={index}
-            style={{
-              backgroundColor: segment.color,
-              animation: flashingSegment === segment.name ? 'flashColor 1s infinite' : 'none',
-            }}
+            className={flashingSegment === segment.name ? 'flashing' : ''}
+            style={{ backgroundColor: segment.color }}
           >
             {segment.name}
           </li>

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import './Wheel.css';
+import arrowImage from '../../assets/wheelarrow.png';
 
 interface Segment {
   name: string;
@@ -52,14 +53,12 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor }) => {
 
   return (
     <div className="wheel-container">
-      <div className="arrow"></div>
-
+      <img src={arrowImage} alt="Arrow" className="arrow" />
       <div
         className="wheel"
         ref={wheelRef}
         style={{ background: gradient }}
       ></div>
-
       <button className="spin-button" onClick={spinWheel}>Spin!</button>
     </div>
   );

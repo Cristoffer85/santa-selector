@@ -11,19 +11,19 @@
   height: 300px;
   border-radius: 50%;
   transition: transform 4s ease-out;
-  border: 5px solid #333;
+  border: 6px solid silver; /* Silver color border */
+  background-clip: padding-box; /* Ensures the border color is visible */
+  box-shadow: 0 0px 32px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.3); /* Adds a metallic effect */
 }
 
 .arrow {
-  width: 0;
-  height: 0;
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  border-bottom: 20px solid red;
+  width: 60px; /* Adjust the size as needed */
+  height: auto;
   position: absolute;
-  top: -20px;
+  top: -45px; /* Adjust the position as needed */
   left: 50%;
-  transform: translateX(-50%) rotate(180deg);
+  transform: translateX(-50%);
+  z-index: 2;
 }
 
 .spin-button {
