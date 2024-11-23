@@ -27,7 +27,6 @@ const SegmentList: React.FC<SegmentListProps> = ({ segments, flashingColor }) =>
 
   return (
     <div className="segment-list">
-      <h2>List of Contenders</h2>
       <ul>
         {segments.map((segment, index) => (
           <li

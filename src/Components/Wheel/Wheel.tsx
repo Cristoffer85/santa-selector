@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import './Wheel.css';
 
 interface Segment {
@@ -12,8 +12,6 @@ interface WheelProps {
 }
 
 const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor }) => {
-  const [selectedSegment, setSelectedSegment] = useState<string | null>(null);
-  const [flashingColor, setFlashingColorState] = useState<string | null>(null);
   const wheelRef = useRef<HTMLDivElement>(null);
 
   const spinWheel = () => {
@@ -31,7 +29,6 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor }) => {
           (segments.length - winningAngle / (360 / segments.length)) % segments.length
         );
         const winner = segments[selectedIndex];
-        setSelectedSegment(winner.name);
         setFlashingColor(winner.color);
       }, 4000); 
     }
@@ -47,23 +44,23 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor }) => {
     .join(', ')})`;
 
   useEffect(() => {
-    if (flashingColor) {
+    if (setFlashingColor) {
       const timer = setTimeout(() => setFlashingColor(null), 2000);
       return () => clearTimeout(timer);
     }
-  }, [flashingColor]);
+  }, [setFlashingColor]);
 
   return (
     <div className="wheel-container">
       <div className="arrow"></div>
 
       <div
-        className={`wheel ${flashingColor ? 'flashing' : ''}`}
+        className="wheel"
         ref={wheelRef}
         style={{ background: gradient }}
       ></div>
 
-      <button onClick={spinWheel}>Spin the wheel!</button>
+      <button className="spin-button" onClick={spinWheel}>Spin!</button>
     </div>
   );
 };
