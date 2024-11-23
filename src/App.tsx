@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Wheel from './Components/Wheel/Wheel';
 import Segments, { Segment } from './Components/Contenders/Contenders';
 import SegmentList from './Components/ContenderList/ContenderList';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 const App: React.FC = () => {
@@ -17,7 +19,9 @@ const App: React.FC = () => {
     setShowSpinButton(false);
   };
 
-  const handleSpinEnd = () => {
+  const handleSpinEnd = (winner: Segment) => {
+    setFlashingColor(winner.color);
+    setSegments([winner]); // Keep only the winner in the segments list
     setShowNewRoundButton(true);
   };
 
@@ -36,6 +40,7 @@ const App: React.FC = () => {
       {showForm && <Segments segments={segments} setSegments={setSegments} />}
       <SegmentList segments={segments} flashingColor={flashingColor} />
       {showNewRoundButton && <button className="new-round-button" onClick={handleNewRound}>New Round?</button>}
+      <ToastContainer />
     </div>
   );
 };
