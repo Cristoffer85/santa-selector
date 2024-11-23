@@ -21,13 +21,47 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    width: 100%; /* Set a fixed width */
-    max-width: 1000px; /* Ensure it doesn't exceed a certain size */
+    width: 100%; /* Increased width */
 }
 
 h1 {
     font-size: 2.5rem;
     color: #ffd700;
-    margin-bottom: 70px;
+    margin-bottom: 60px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.main-content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items to the top */
+}
+
+.results-list {
+    width: 150px; /* Reduced width */
+    background: #555;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.results-list h2 {
+    font-size: 1.2rem; /* Reduced font size */
+    color: #ffd700;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.results-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.results-list li {
+    padding: 5px;
+    margin: 5px 0;
+    background: #666;
+    border-radius: 5px;
+    text-align: center;
 }

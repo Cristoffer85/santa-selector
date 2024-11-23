@@ -16,9 +16,10 @@ interface WheelProps {
   onSpinEnd: (winner: Segment) => void;
   showSpinButton: boolean;
   winnerName: string | null;
+  showArrow: boolean; // Prop to manage the visibility of the arrow
 }
 
-const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, onSpinEnd, showSpinButton, winnerName }) => {
+const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, onSpinEnd, showSpinButton, winnerName, showArrow }) => {
   const wheelRef = useRef<HTMLDivElement>(null);
 
   const spinWheel = () => {
@@ -70,13 +71,17 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, 
           Winner is {winnerName}!
         </motion.div>
       )}
-      <img src={arrowImage} alt="Arrow" className="arrow" />
+      {showArrow && <img src={arrowImage} alt="Arrow" className="arrow" />}
       <div
         className="wheel"
         ref={wheelRef}
         style={{ background: segments.length > 0 ? gradient : 'none' }}
       ></div>
-      {showSpinButton && <button className="spin-button" onClick={spinWheel}>Spin!</button>}
+      {showSpinButton && (
+        <div className="spin-button-container">
+          <button className="spin-button" onClick={spinWheel}>Spin!</button>
+        </div>
+      )}
     </div>
   );
 };
