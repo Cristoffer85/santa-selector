@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import './Wheel.css';
 import arrowImage from '../../assets/wheelarrow.png';
 import { toast } from 'react-toastify';
+import { motion } from 'framer-motion';
 
 interface Segment {
   name: string;
@@ -14,9 +15,10 @@ interface WheelProps {
   onSpinStart: () => void;
   onSpinEnd: (winner: Segment) => void;
   showSpinButton: boolean;
+  winnerName: string | null;
 }
 
-const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, onSpinEnd, showSpinButton }) => {
+const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, onSpinEnd, showSpinButton, winnerName }) => {
   const wheelRef = useRef<HTMLDivElement>(null);
 
   const spinWheel = () => {
@@ -58,6 +60,16 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, 
 
   return (
     <div className="wheel-container">
+      {winnerName && (
+        <motion.div
+          className="winner-sign"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          Winner is {winnerName}!
+        </motion.div>
+      )}
       <img src={arrowImage} alt="Arrow" className="arrow" />
       <div
         className="wheel"

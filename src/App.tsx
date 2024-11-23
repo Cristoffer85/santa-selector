@@ -12,17 +12,20 @@ const App: React.FC = () => {
   const [showForm, setShowForm] = useState(true);
   const [showNewRoundButton, setShowNewRoundButton] = useState(false);
   const [showSpinButton, setShowSpinButton] = useState(true);
+  const [winnerName, setWinnerName] = useState<string | null>(null);
 
   const handleSpinStart = () => {
     setShowForm(false);
     setShowNewRoundButton(false);
     setShowSpinButton(false);
+    setWinnerName(null);
   };
 
   const handleSpinEnd = (winner: Segment) => {
     setFlashingColor(winner.color);
     setSegments([winner]); // Keep only the winner in the segments list
     setShowNewRoundButton(true);
+    setWinnerName(winner.name);
   };
 
   const handleNewRound = () => {
@@ -31,12 +34,13 @@ const App: React.FC = () => {
     setShowNewRoundButton(false);
     setSegments([]);
     setShowSpinButton(true);
+    setWinnerName(null);
   };
 
   return (
     <div className="app">
       <h1>Welcome to the Santa selector!</h1>
-      <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} />
+      <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} winnerName={winnerName} />
       {showForm && <Segments segments={segments} setSegments={setSegments} />}
       <SegmentList segments={segments} flashingColor={flashingColor} />
       {showNewRoundButton && <button className="new-round-button" onClick={handleNewRound}>New Round?</button>}
