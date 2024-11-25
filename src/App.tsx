@@ -43,28 +43,32 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="app">
-      <div className="header-container">
-        {!winnerName && showSpinButton && <h1>Welcome to the Santa selector!</h1>}
-        {winnerName && <h1>Winner is {winnerName}!</h1>}
-      </div>
-      <div className="main-content">
+    <div className="app-container">
+      <div className="results-list-container">
         <div className="results-list">
-          <h2>Previous Winners</h2>
+          <h2>Previous Champions</h2>
           <ul>
             {results.map((result, index) => (
               <li key={index}>{result}</li>
             ))}
           </ul>
         </div>
-        <div className="wheel-and-form">
-          <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} showArrow={showArrow} />
-          {showForm && <Segments segments={segments} setSegments={setSegments} />}
-          <SegmentList segments={segments} flashingColor={flashingColor} />
-        </div>
       </div>
-      {showNewRoundButton && <button className="new-round-button" onClick={handleNewRound}>New Round?</button>}
-      <ToastContainer />
+      <div className="app">
+        <div className="header-container">
+          {!winnerName && showSpinButton && <h1>Welcome to the Santa selector!</h1>}
+          {winnerName && <h1>Winner is {winnerName}!</h1>}
+        </div>
+        <div className="main-content">
+          <div className="wheel-and-form">
+            <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} showArrow={showArrow} />
+            {showForm && <Segments segments={segments} setSegments={setSegments} />}
+            <SegmentList segments={segments} flashingColor={flashingColor} />
+          </div>
+        </div>
+        {showNewRoundButton && <button className="new-round-button" onClick={handleNewRound}>New Round?</button>}
+        <ToastContainer />
+      </div>
     </div>
   );
 };
