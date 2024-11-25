@@ -3,16 +3,17 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  width: 100%; /* Use 100% width of the container */
-  max-width: 400px; /* Ensure it doesn't exceed a certain size */
+  width: 100%;
+  max-width: 400px;
   height: 400px;
+  margin: 0 auto;
 }
 
 .wheel {
   position: relative;
-  width: 100%; /* Use 100% width of the container */
-  height: 100%; /* Use 100% height of the container */
-  aspect-ratio: 1 / 1; /* Maintain a 1:1 aspect ratio */
+  width: 100%; 
+  height: 100%; 
+  aspect-ratio: 1 / 1; 
   border-radius: 50%;
   transition: transform 4s ease-out;
   border: 6px solid silver; 
@@ -26,17 +27,20 @@
   height: auto;
   position: absolute;
   top: -55px;
-  left: 29%;
+  left: 50%;
   transform: translateX(-50%);
   z-index: 2;
 }
 
 .spin-button-container {
+  position: absolute;
+  bottom: 160px; 
+  left: 120%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 20px; /* Space between the wheel and the button */
-  width: 150px; /* Set a fixed width for the container */
+  width: 150px;
 }
 
 .spin-button {

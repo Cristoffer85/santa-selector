@@ -8,12 +8,14 @@
 
 .input-container {
   position: absolute;
+  top: 580px; 
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
-  width: 50%; /* Ensure it takes full width */
-  justify-content: center; /* Center the input and button */
+  width: 50%;
+  justify-content: center;
 }
 
 .input-container input {
