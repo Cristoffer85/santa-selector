@@ -28,7 +28,7 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    width: 700px; /* Set a fixed width */
+    width: 750px; /* Set a fixed width */
     max-width: 90%; /* Ensure it doesn't exceed a certain size */
     position: relative; /* Ensure the wheel is positioned relative to the app container */
 }
@@ -132,3 +132,27 @@ h1 {
 .addcontender-button:hover {
     background-color: #45a049;
 }
+
+@keyframes tilt {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-45deg);
+    }
+    50% {
+      transform: rotate(0deg);
+    }
+    75% {
+      transform: rotate(45deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+  
+  .tilting-image {
+    width: 25px;
+    animation: tilt 2s infinite;
+    margin: 0 20px;
+  }

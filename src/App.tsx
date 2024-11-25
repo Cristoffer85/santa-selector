@@ -6,6 +6,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import hohohoSound from './assets/hohoho.wav';
+import mrClaus from './assets/mrclaus.png';
+import mrsClaus from './assets/msclaus.png';
 
 const App: React.FC = () => {
   const [segments, setSegments] = useState<Segment[]>([]);
@@ -35,10 +37,10 @@ const App: React.FC = () => {
     }
 
     setFlashingColor(winner.color);
-    setSegments([winner]); 
+    setSegments([winner]);
     setShowNewRoundButton(true);
     setWinnerName(winner.name);
-    setResults((prevResults) => [...prevResults, winner.name]); 
+    setResults((prevResults) => [...prevResults, winner.name]);
   };
 
   const handleNewRound = () => {
@@ -58,14 +60,16 @@ const App: React.FC = () => {
           <ul>
             {results.map((result, index) => (
               <li key={index}>{result}</li>
-            ))} 
+            ))}
           </ul>
         </div>
       </div>
       <div className="app">
         <div className="header-container">
+          <img src={mrClaus} alt="Mr. Claus" className="tilting-image" />
           {!winnerName && showSpinButton && <h1>Welcome to the Santa selector!</h1>}
           {winnerName && <h1>Winner is {winnerName}!</h1>}
+          <img src={mrsClaus} alt="Mrs. Claus" className="tilting-image" />
         </div>
         <div className="main-content">
           <div className="wheel-and-form">
