@@ -17,6 +17,7 @@ const App: React.FC = () => {
   const [showSpinButton, setShowSpinButton] = useState(true);
   const [winnerName, setWinnerName] = useState<string | null>(null);
   const [results, setResults] = useState<string[]>([]);
+  const [simpleResults, setSimpleResults] = useState<string[]>([]); // New state for simple mode results
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [mode, setMode] = useState<'simple' | 'detailed'>('simple'); // New state for mode
 
@@ -41,7 +42,12 @@ const App: React.FC = () => {
     setSegments([winner]);
     setShowNewRoundButton(true);
     setWinnerName(winner.name);
-    setResults((prevResults) => [...prevResults, winner.name]);
+
+    if (mode === 'detailed') {
+      setResults((prevResults) => [...prevResults, winner.name]);
+    } else {
+      setSimpleResults((prevResults) => [...prevResults, winner.name]);
+    }
   };
 
   const handleNewRound = () => {
@@ -80,8 +86,18 @@ const App: React.FC = () => {
         <div className="main-content">
           <div className="left-column">
             <div className="mode-buttons">
-            <button onClick={switchToDetailedMode}>TOURNAMENT MODE</button>
-              <button onClick={switchToSimpleMode}>SIMPLE MODE</button>
+              <button 
+                onClick={switchToDetailedMode} 
+                className={mode === 'detailed' ? 'active' : ''}
+              >
+                TOURNAMENT MODE
+              </button>
+              <button 
+                onClick={switchToSimpleMode} 
+                className={mode === 'simple' ? 'active' : ''}
+              >
+                SIMPLE MODE
+              </button>
             </div>
           </div>
           <div className="wheel-and-form">
