@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Wheel from './Components/Wheel/Wheel';
 import Segments, { Segment } from './Components/Contenders/Contenders';
 import SegmentList from './Components/ContenderList/ContenderList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import hohohoSound from './assets/hohoho.wav';
 
 const App: React.FC = () => {
   const [segments, setSegments] = useState<Segment[]>([]);
@@ -14,6 +15,12 @@ const App: React.FC = () => {
   const [showSpinButton, setShowSpinButton] = useState(true);
   const [winnerName, setWinnerName] = useState<string | null>(null);
   const [results, setResults] = useState<string[]>([]);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    const audio = new Audio(hohohoSound);
+    setAudio(audio);
+  }, []);
 
   const handleSpinStart = () => {
     setShowForm(false);
@@ -23,11 +30,15 @@ const App: React.FC = () => {
   };
 
   const handleSpinEnd = (winner: Segment) => {
+    if (audio) {
+      audio.play();
+    }
+
     setFlashingColor(winner.color);
-    setSegments([winner]); // Keep only the winner in the segments list
+    setSegments([winner]); 
     setShowNewRoundButton(true);
     setWinnerName(winner.name);
-    setResults((prevResults) => [...prevResults, winner.name]); // Save the winner of the round
+    setResults((prevResults) => [...prevResults, winner.name]); 
   };
 
   const handleNewRound = () => {
