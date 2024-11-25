@@ -14,14 +14,12 @@ const App: React.FC = () => {
   const [showSpinButton, setShowSpinButton] = useState(true);
   const [winnerName, setWinnerName] = useState<string | null>(null);
   const [results, setResults] = useState<string[]>([]);
-  const [showArrow, setShowArrow] = useState(false);
 
   const handleSpinStart = () => {
     setShowForm(false);
     setShowNewRoundButton(false);
     setShowSpinButton(false);
     setWinnerName(null);
-    setShowArrow(true); // Show the arrow when the spin starts
   };
 
   const handleSpinEnd = (winner: Segment) => {
@@ -39,7 +37,6 @@ const App: React.FC = () => {
     setSegments([]);
     setShowSpinButton(true);
     setWinnerName(null);
-    setShowArrow(false); // Hide the arrow when starting a new round
   };
 
   return (
@@ -50,7 +47,7 @@ const App: React.FC = () => {
           <ul>
             {results.map((result, index) => (
               <li key={index}>{result}</li>
-            ))}
+            ))} 
           </ul>
         </div>
       </div>
@@ -61,7 +58,7 @@ const App: React.FC = () => {
         </div>
         <div className="main-content">
           <div className="wheel-and-form">
-            <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} showArrow={showArrow} />
+            <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} />
             {showForm && <Segments segments={segments} setSegments={setSegments} />}
             <SegmentList segments={segments} flashingColor={flashingColor} />
           </div>

@@ -14,10 +14,9 @@ interface WheelProps {
   onSpinStart: () => void;
   onSpinEnd: (winner: Segment) => void;
   showSpinButton: boolean;
-  showArrow: boolean;
 }
 
-const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, onSpinEnd, showSpinButton, showArrow }) => {
+const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, onSpinEnd, showSpinButton }) => {
   const wheelRef = useRef<HTMLDivElement>(null);
 
   const spinWheel = () => {
@@ -59,7 +58,7 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, 
 
   return (
     <div className="wheel-container">
-      {showArrow && <img src={arrowImage} alt="Arrow" className="arrow" />}
+      <img src={arrowImage} alt="Arrow" className="arrow" />
       <div
         className="wheel"
         ref={wheelRef}
