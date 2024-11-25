@@ -17,6 +17,7 @@ body {
     justify-content: center;
     align-items: flex-start;
     gap: 20px; /* Space between the winners box and the main content */
+    position: relative; /* Ensure the left-column can be positioned absolutely */
 }
 
 .app {
@@ -54,6 +55,40 @@ h1 {
     width: 100%;
     justify-content: center;
     align-items: flex-start; /* Align items to the top */
+}
+
+.left-column {
+    position: absolute;
+    left: 10.5px;
+    top: 60%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.mode-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 103px;
+}
+
+.mode-buttons button {
+    padding: 5px 10px;
+    font-size: 11px;
+    border: none;
+    font-weight: bold;
+    border-radius: 1px;
+    background-color: #302e2e;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    transform: rotate(-90deg); /* Rotate the buttons vertically */
+    transform-origin: left center; /* Adjust the origin to rotate around the left edge */
+}
+
+.mode-buttons button:hover {
+    background-color: #444;
 }
 
 .results-list-container {

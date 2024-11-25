@@ -18,6 +18,7 @@ const App: React.FC = () => {
   const [winnerName, setWinnerName] = useState<string | null>(null);
   const [results, setResults] = useState<string[]>([]);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  const [mode, setMode] = useState<'simple' | 'detailed'>('simple'); // New state for mode
 
   useEffect(() => {
     const audio = new Audio(hohohoSound);
@@ -52,18 +53,23 @@ const App: React.FC = () => {
     setWinnerName(null);
   };
 
+  const switchToSimpleMode = () => setMode('simple');
+  const switchToDetailedMode = () => setMode('detailed');
+
   return (
     <div className="app-container">
-      <div className="results-list-container">
-        <div className="results-list">
-          <h2>Previous Champions</h2>
-          <ul>
-            {results.map((result, index) => (
-              <li key={index}>{result}</li>
-            ))}
-          </ul>
+      {mode === 'detailed' && (
+        <div className="results-list-container">
+          <div className="results-list">
+            <h2>Previous Champions</h2>
+            <ul>
+              {results.map((result, index) => (
+                <li key={index}>{result}</li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
+      )}
       <div className="app">
         <div className="header-container">
           <img src={mrClaus} alt="Mr. Claus" className="tilting-image" />
@@ -72,6 +78,12 @@ const App: React.FC = () => {
           <img src={mrsClaus} alt="Mrs. Claus" className="tilting-image" />
         </div>
         <div className="main-content">
+          <div className="left-column">
+            <div className="mode-buttons">
+            <button onClick={switchToDetailedMode}>TOURNAMENT MODE</button>
+              <button onClick={switchToSimpleMode}>SIMPLE MODE</button>
+            </div>
+          </div>
           <div className="wheel-and-form">
             <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} />
             {showForm && <Segments segments={segments} setSegments={setSegments} />}
