@@ -35,7 +35,7 @@ const Segments: React.FC<{ segments: Segment[], setSegments: (segments: Segment[
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="add .Claus"
         />
-        <button className="addcontender-button" onClick={handleAddSegment}>Add Santa Contender!</button>
+        <button className="addcontender-button" onClick={handleAddSegment} title='Add Santa Contender!'>- Contender!</button>
       </div>
     </div>
   );

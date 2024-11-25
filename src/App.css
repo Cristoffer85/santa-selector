@@ -118,21 +118,6 @@ h1 {
     border: 1px solid #ccc;
 }
 
-.addcontender-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #4CAF50; 
-    color: white;
-    border: none;
-    border-radius: 15px;
-    transition: background-color 0.3s ease;
-}
-
-.addcontender-button:hover {
-    background-color: #45a049;
-}
-
 @keyframes tilt {
     0% {
       transform: rotate(0deg);
