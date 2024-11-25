@@ -44,7 +44,10 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <h1>Welcome to the Santa selector!</h1>
+      <div className="header-container">
+        {!winnerName && showSpinButton && <h1>Welcome to the Santa selector!</h1>}
+        {winnerName && <h1>Winner is {winnerName}!</h1>}
+      </div>
       <div className="main-content">
         <div className="results-list">
           <h2>Previous Winners</h2>
@@ -54,10 +57,12 @@ const App: React.FC = () => {
             ))}
           </ul>
         </div>
-        <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} winnerName={winnerName} showArrow={showArrow} />
+        <div className="wheel-and-form">
+          <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} showArrow={showArrow} />
+          {showForm && <Segments segments={segments} setSegments={setSegments} />}
+          <SegmentList segments={segments} flashingColor={flashingColor} />
+        </div>
       </div>
-      {showForm && <Segments segments={segments} setSegments={setSegments} />}
-      <SegmentList segments={segments} flashingColor={flashingColor} />
       {showNewRoundButton && <button className="new-round-button" onClick={handleNewRound}>New Round?</button>}
       <ToastContainer />
     </div>

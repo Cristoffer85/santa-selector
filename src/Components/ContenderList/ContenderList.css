@@ -1,18 +1,23 @@
 .segment-list {
-  margin-top: 20px;
+  margin-top: 40px;
   text-align: center;
 }
 
 .segment-list ul {
   list-style: none;
   padding: 0;
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  justify-content: center; /* Center the items horizontally */
 }
 
 .segment-list li {
   padding: 10px;
-  margin: 5px 0;
+  margin: 5px;
   border-radius: 5px;
   color: white;
+  background-color: #666; /* Add a background color for better visibility */
+  flex: 0 1 auto; /* Allow items to grow and shrink as needed */
 }
 
 .segment-list h2 {
@@ -33,5 +38,5 @@
 }
 
 .flashing {
-  animation: flashColor 0.18s infinite; /* Flash every 0.1 seconds */
+  animation: flashColor 0.18s infinite; /* Flash every 0.18 seconds */
 }

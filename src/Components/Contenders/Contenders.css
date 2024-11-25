@@ -1,46 +1,40 @@
-.segment-list {
-    margin-top: 30px;
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .segment-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 5px;
-    font-size: 1.2rem;
-  }
-  
-  .segment-color {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  
-  .segment-name {
-    font-weight: bold;
-  }
+.segments-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%; /* Ensure it takes full width */
+}
 
-  .addcontender-button{
-    margin-top: 20px;
-    margin-left: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #4CAF50; 
-    color: rgb(241, 241, 241);
-    font-weight: 400;
-    border: none;
-    border-radius: 15px;
-    transition: background-color 0.3s ease;
-    position: relative;
-  }
-  .addcontender-button:hover {
-    background-color: #9dd1a0;
-  }
-  
+.input-container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 50%; /* Ensure it takes full width */
+  justify-content: center; /* Center the input and button */
+}
+
+.input-container input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  flex: 1; /* Allow the input to take available space */
+}
+
+.addcontender-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #4CAF50; 
+  color: white;
+  border: none;
+  border-radius: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.addcontender-button:hover {
+  background-color: #45a049;
+}

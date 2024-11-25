@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import './Wheel.css';
 import arrowImage from '../../assets/wheelarrow.png';
 import { toast } from 'react-toastify';
-import { motion } from 'framer-motion';
 
 interface Segment {
   name: string;
@@ -15,11 +14,10 @@ interface WheelProps {
   onSpinStart: () => void;
   onSpinEnd: (winner: Segment) => void;
   showSpinButton: boolean;
-  winnerName: string | null;
-  showArrow: boolean; // Prop to manage the visibility of the arrow
+  showArrow: boolean;
 }
 
-const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, onSpinEnd, showSpinButton, winnerName, showArrow }) => {
+const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, onSpinEnd, showSpinButton, showArrow }) => {
   const wheelRef = useRef<HTMLDivElement>(null);
 
   const spinWheel = () => {
@@ -45,7 +43,7 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, 
         );
         const winner = segments[selectedIndex];
         setFlashingColor(winner.color);
-        onSpinEnd(winner); // Pass the winner to the onSpinEnd callback
+        onSpinEnd(winner);
       }, 4000); 
     }
   };
@@ -61,27 +59,19 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, 
 
   return (
     <div className="wheel-container">
-      {winnerName && (
-        <motion.div
-          className="winner-sign"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          Winner is {winnerName}!
-        </motion.div>
-      )}
       {showArrow && <img src={arrowImage} alt="Arrow" className="arrow" />}
       <div
         className="wheel"
         ref={wheelRef}
         style={{ background: segments.length > 0 ? gradient : 'none' }}
       ></div>
-      {showSpinButton && (
-        <div className="spin-button-container">
+      <div className="spin-button-container">
+        {showSpinButton ? (
           <button className="spin-button" onClick={spinWheel}>Spin!</button>
-        </div>
-      )}
+        ) : (
+          <div style={{ width: '150px' }}></div> // Placeholder element
+        )}
+      </div>
     </div>
   );
 };
