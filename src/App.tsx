@@ -223,11 +223,6 @@ const App: React.FC = () => {
             {finalComplete ? 'New Round?' : 'Next Round'}
           </button>
         )}
-        {showNewRoundButton && finalComplete && (
-          <button className="new-round-button" onClick={handleNewRound}>
-            New Round?
-          </button>
-        )}
         <ToastContainer />
       </div>
     </div>
