@@ -8,6 +8,7 @@ import './App.css';
 import hohohoSound from './assets/hohoho.wav';
 import mrClaus from './assets/mrclaus.png';
 import mrsClaus from './assets/msclaus.png';
+import claussleigh from './assets/claussleigh.gif'; // Import the gif
 
 const App: React.FC = () => {
   const [segments, setSegments] = useState<Segment[]>([]);
@@ -26,6 +27,7 @@ const App: React.FC = () => {
   const [selectedWinners, setSelectedWinners] = useState<string[]>([]); // New state for selected winners
   const [quarterfinalCount, setQuarterfinalCount] = useState(0); // Count for quarterfinals
   const [semifinalCount, setSemifinalCount] = useState(0); // Count for semifinals
+  const [finalComplete, setFinalComplete] = useState(false); // Flag for final completion
 
   useEffect(() => {
     const audio = new Audio(hohohoSound);
@@ -70,6 +72,7 @@ const App: React.FC = () => {
         }
       } else if (stage === 'Final') {
         setResults((prevResults) => [...prevResults, `Final: ${winner.name}`]);
+        setFinalComplete(true); // Set the flag for final completion
         setStage('Quarterfinal'); // Reset to Quarterfinal after Final
         setQuarterfinalWinners([]);
         setSemifinalWinners([]);
@@ -90,6 +93,10 @@ const App: React.FC = () => {
     setSegments([]);
     setShowSpinButton(true);
     setWinnerName(null);
+    if (finalComplete) {
+      setResults([]); // Clear the result list only after the final stage
+    }
+    setFinalComplete(false); // Reset the final completion flag
   };
 
   const switchToSimpleMode = () => setMode('simple');
@@ -147,10 +154,10 @@ const App: React.FC = () => {
         <div className="header-container">
           <img src={mrClaus} alt="Mr. Claus" className="tilting-image" />
           {!winnerName && showSpinButton && <h1>Welcome to the Santa selector!</h1>}
-          {winnerName && <h1>Winner is {winnerName}!</h1>}
+          {winnerName && stage !== 'Final' && <h1>Winner is {winnerName}!</h1>}
           <img src={mrsClaus} alt="Mrs. Claus" className="tilting-image" />
         </div>
-        <div className="main-content">
+        <div className={`main-content ${finalComplete ? 'final-stage' : ''}`}>
           <div className="left-column">
             <div className="mode-buttons">
               <button 
@@ -167,28 +174,39 @@ const App: React.FC = () => {
               </button>
             </div>
           </div>
-          <div className="wheel-and-form">
-            <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} />
-            {showForm && mode === 'simple' && <Segments segments={segments} setSegments={setSegments} />}
-            {showForm && mode === 'detailed' && stage === 'Quarterfinal' && <Segments segments={segments} setSegments={setSegments} />}
-            <SegmentList segments={segments} flashingColor={flashingColor} />
-            {mode === 'detailed' && stage !== 'Quarterfinal' && winnersLeftToSelect && (
-              <div className="winner-selection">
-                <h3>Select Winners for {stage}</h3>
-                <ul>
-                  {(stage === 'Semifinal' ? quarterfinalWinners : semifinalWinners).map((winner, index) => (
-                    <li key={index}>
-                      <button onClick={() => handleWinnerSelection(winner)} className={selectedWinners.includes(winner) ? 'selected' : ''}>
-                        {winner}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+          {!finalComplete && (
+            <div className="wheel-and-form">
+              <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} />
+              {showForm && mode === 'simple' && <Segments segments={segments} setSegments={setSegments} />}
+              {showForm && mode === 'detailed' && stage === 'Quarterfinal' && <Segments segments={segments} setSegments={setSegments} />}
+              <SegmentList segments={segments} flashingColor={flashingColor} />
+              {mode === 'detailed' && stage !== 'Quarterfinal' && winnersLeftToSelect && (
+                <div className="winner-selection">
+                  <h3>Select Winners for {stage}</h3>
+                  <ul>
+                    {(stage === 'Semifinal' ? quarterfinalWinners : semifinalWinners).map((winner, index) => (
+                      <li key={index}>
+                        <button onClick={() => handleWinnerSelection(winner)} className={selectedWinners.includes(winner) ? 'selected' : ''}>
+                          {winner}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+          {finalComplete && (
+            <div className="final-stage">
+              <img src={claussleigh} alt="Final Winner" />
+            </div>
+          )}
         </div>
-        {showNewRoundButton && stage === 'Quarterfinal' && <button className="new-round-button" onClick={handleNewRound}>New Round?</button>}
+        {showNewRoundButton && (
+          <button className="new-round-button" onClick={handleNewRound}>
+            {finalComplete ? 'New Round?' : 'Next Round'}
+          </button>
+        )}
         <ToastContainer />
       </div>
     </div>
