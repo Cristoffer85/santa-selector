@@ -24,6 +24,8 @@ const App: React.FC = () => {
   const [quarterfinalWinners, setQuarterfinalWinners] = useState<string[]>([]);
   const [semifinalWinners, setSemifinalWinners] = useState<string[]>([]);
   const [selectedWinners, setSelectedWinners] = useState<string[]>([]); // New state for selected winners
+  const [quarterfinalCount, setQuarterfinalCount] = useState(0); // Count for quarterfinals
+  const [semifinalCount, setSemifinalCount] = useState(0); // Count for semifinals
 
   useEffect(() => {
     const audio = new Audio(hohohoSound);
@@ -50,7 +52,8 @@ const App: React.FC = () => {
     if (mode === 'detailed') {
       if (stage === 'Quarterfinal') {
         setQuarterfinalWinners((prevWinners) => [...prevWinners, winner.name]);
-        setResults((prevResults) => [...prevResults, `Quarterfinal: ${winner.name}`]);
+        setResults((prevResults) => [...prevResults, `Quarter Final ${quarterfinalCount + 1}: ${winner.name}`]);
+        setQuarterfinalCount(quarterfinalCount + 1);
         if (quarterfinalWinners.length + 1 === 4) {
           setStage('Semifinal');
           setSegments([]);
@@ -58,7 +61,8 @@ const App: React.FC = () => {
         }
       } else if (stage === 'Semifinal') {
         setSemifinalWinners((prevWinners) => [...prevWinners, winner.name]);
-        setResults((prevResults) => [...prevResults, `Semifinal: ${winner.name}`]);
+        setResults((prevResults) => [...prevResults, `Semi Final ${semifinalCount + 1}: ${winner.name}`]);
+        setSemifinalCount(semifinalCount + 1);
         if (semifinalWinners.length + 1 === 2) {
           setStage('Final');
           setSegments([]);
@@ -71,6 +75,8 @@ const App: React.FC = () => {
         setSemifinalWinners([]);
         setSegments([]);
         setShowForm(true);
+        setQuarterfinalCount(0); // Reset counts
+        setSemifinalCount(0); // Reset counts
       }
     } else {
       setSimpleResults((prevResults) => [...prevResults, winner.name]);
