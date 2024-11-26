@@ -53,6 +53,7 @@ const App: React.FC = () => {
     setSegments([winner]);
     setShowNewRoundButton(true);
     setWinnerName(winner.name);
+    setHideWinners(false); // Show the winners list again after the spin has completed
 
     if (mode === 'detailed') {
       if (stage === 'Quarterfinal') {
@@ -210,14 +211,9 @@ const App: React.FC = () => {
             </div>
           )}
         </div>
-        {showNewRoundButton && showNextRoundButton && stage !== 'Final' && (
+        {showNewRoundButton && showNextRoundButton && stage !== 'Final' && stage !== 'Semifinal' && (
           <button className="new-round-button" onClick={handleNewRound}>
             {finalComplete ? 'New Round?' : 'Next Round'}
-          </button>
-        )}
-        {showNewRoundButton && finalComplete && (
-          <button className="new-round-button" onClick={handleNewRound}>
-            New Round?
           </button>
         )}
         <ToastContainer />
