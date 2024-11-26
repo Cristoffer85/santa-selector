@@ -131,6 +131,18 @@ h1 {
     text-align: center;
 }
 
+.results-list li.quarterfinal {
+    background-color: #cd7f32; /* Bronze color */
+  }
+  
+  .results-list li.semifinal {
+    background-color: #c0c0c0; /* Silver color */
+  }
+  
+  .results-list li.final {
+    background-color: #ffd700; /* Gold color */
+  }
+
 .wheel-and-form {
     display: flex;
     flex-direction: column;

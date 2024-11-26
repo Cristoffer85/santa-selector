@@ -17,7 +17,7 @@ const App: React.FC = () => {
   const [showNewRoundButton, setShowNewRoundButton] = useState(false);
   const [showSpinButton, setShowSpinButton] = useState(true);
   const [winnerName, setWinnerName] = useState<string | null>(null);
-  const [results, setResults] = useState<string[]>([]);
+  const [results, setResults] = useState<{ stage: string; name: string }[]>([]);
   const [simpleResults, setSimpleResults] = useState<string[]>([]);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [mode, setMode] = useState<'simple' | 'detailed'>('simple');
@@ -58,7 +58,7 @@ const App: React.FC = () => {
     if (mode === 'detailed') {
       if (stage === 'Quarterfinal') {
         setQuarterfinalWinners((prevWinners) => [...prevWinners, winner.name]);
-        setResults((prevResults) => [...prevResults, `Quarter Final ${quarterfinalCount + 1}: ${winner.name}`]);
+        setResults((prevResults) => [...prevResults, { stage: 'quarterfinal', name: `Quarter Final ${quarterfinalCount + 1}: ${winner.name}` }]);
         setQuarterfinalCount(quarterfinalCount + 1);
         if (quarterfinalWinners.length + 1 === 4) {
           setStage('Semifinal');
@@ -67,7 +67,7 @@ const App: React.FC = () => {
         }
       } else if (stage === 'Semifinal') {
         setSemifinalWinners((prevWinners) => [...prevWinners, winner.name]);
-        setResults((prevResults) => [...prevResults, `Semi Final ${semifinalCount + 1}: ${winner.name}`]);
+        setResults((prevResults) => [...prevResults, { stage: 'semifinal', name: `Semi Final ${semifinalCount + 1}: ${winner.name}` }]);
         setSemifinalCount(semifinalCount + 1);
         if (semifinalWinners.length + 1 === 2) {
           setStage('Final');
@@ -75,7 +75,7 @@ const App: React.FC = () => {
           setShowForm(false);
         }
       } else if (stage === 'Final') {
-        setResults((prevResults) => [...prevResults, `Final: ${winner.name}`]);
+        setResults((prevResults) => [...prevResults, { stage: 'final', name: `Final: ${winner.name}` }]);
         setFinalComplete(true); // Set the flag for final completion
         setStage('Quarterfinal'); // Reset to Quarterfinal after Final
         setQuarterfinalWinners([]);
@@ -157,10 +157,10 @@ const App: React.FC = () => {
       {mode === 'detailed' && (
         <div className="results-list-container">
           <div className="results-list">
-            <h2>Santournament</h2>
+            <h2>Previous Champions</h2>
             <ul>
               {results.map((result, index) => (
-                <li key={index}>{result}</li>
+                <li key={index} className={result.stage}>{result.name}</li>
               ))}
             </ul>
           </div>
@@ -198,7 +198,7 @@ const App: React.FC = () => {
               <SegmentList segments={segments} flashingColor={flashingColor} />
               {mode === 'detailed' && stage !== 'Quarterfinal' && winnersLeftToSelect && !hideWinners && (
                 <div className="winner-selection">
-                  <h3>Choose 2 winners for {stage} round</h3>
+                  <h3>Select Winners for {stage}</h3>
                   <ul>
                     {(stage === 'Semifinal' ? quarterfinalWinners : semifinalWinners).map((winner, index) => (
                       <li key={index}>
@@ -221,6 +221,11 @@ const App: React.FC = () => {
         {showNewRoundButton && showNextRoundButton && stage !== 'Final' && stage !== 'Semifinal' && (
           <button className="new-round-button" onClick={handleNewRound}>
             {finalComplete ? 'New Round?' : 'Next Round'}
+          </button>
+        )}
+        {showNewRoundButton && finalComplete && (
+          <button className="new-round-button" onClick={handleNewRound}>
+            New Round?
           </button>
         )}
         <ToastContainer />
