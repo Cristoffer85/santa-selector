@@ -127,6 +127,8 @@ const App: React.FC = () => {
     }
   };
 
+  const winnersLeftToSelect = (stage === 'Semifinal' ? quarterfinalWinners : semifinalWinners).length > 0;
+
   return (
     <div className="app-container">
       {mode === 'detailed' && (
@@ -170,7 +172,7 @@ const App: React.FC = () => {
             {showForm && mode === 'simple' && <Segments segments={segments} setSegments={setSegments} />}
             {showForm && mode === 'detailed' && stage === 'Quarterfinal' && <Segments segments={segments} setSegments={setSegments} />}
             <SegmentList segments={segments} flashingColor={flashingColor} />
-            {mode === 'detailed' && stage !== 'Quarterfinal' && (
+            {mode === 'detailed' && stage !== 'Quarterfinal' && winnersLeftToSelect && (
               <div className="winner-selection">
                 <h3>Select Winners for {stage}</h3>
                 <ul>
