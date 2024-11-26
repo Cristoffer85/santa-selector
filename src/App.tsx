@@ -25,9 +25,12 @@ const App: React.FC = () => {
   const [quarterfinalWinners, setQuarterfinalWinners] = useState<string[]>([]);
   const [semifinalWinners, setSemifinalWinners] = useState<string[]>([]);
   const [selectedWinners, setSelectedWinners] = useState<string[]>([]); // New state for selected winners
+  const [remainingWinners, setRemainingWinners] = useState<string[]>([]); // New state for remaining winners
   const [quarterfinalCount, setQuarterfinalCount] = useState(0); // Count for quarterfinals
   const [semifinalCount, setSemifinalCount] = useState(0); // Count for semifinals
   const [finalComplete, setFinalComplete] = useState(false); // Flag for final completion
+  const [hideWinners, setHideWinners] = useState(false); // New state to hide winners
+  const [showNextRoundButton, setShowNextRoundButton] = useState(true); // New state to show/hide the next round button
 
   useEffect(() => {
     const audio = new Audio(hohohoSound);
@@ -84,6 +87,7 @@ const App: React.FC = () => {
     } else {
       setSimpleResults((prevResults) => [...prevResults, winner.name]);
     }
+    setShowNextRoundButton(true); // Show the next round button when a winner is announced
   };
 
   const handleNewRound = () => {
@@ -97,6 +101,8 @@ const App: React.FC = () => {
       setResults([]); // Clear the result list only after the final stage
     }
     setFinalComplete(false); // Reset the final completion flag
+    setHideWinners(false); // Show the remaining winners again
+    setShowNextRoundButton(false); // Hide the next round button
   };
 
   const switchToSimpleMode = () => setMode('simple');
@@ -116,6 +122,8 @@ const App: React.FC = () => {
 
       if (newSelected.length === 2) {
         handleStartNextStage(newSelected);
+        setHideWinners(true); // Hide the remaining winners
+        setShowNextRoundButton(false); // Hide the next round button
       }
 
       return newSelected;
@@ -180,13 +188,13 @@ const App: React.FC = () => {
               {showForm && mode === 'simple' && <Segments segments={segments} setSegments={setSegments} />}
               {showForm && mode === 'detailed' && stage === 'Quarterfinal' && <Segments segments={segments} setSegments={setSegments} />}
               <SegmentList segments={segments} flashingColor={flashingColor} />
-              {mode === 'detailed' && stage !== 'Quarterfinal' && winnersLeftToSelect && (
+              {mode === 'detailed' && stage !== 'Quarterfinal' && winnersLeftToSelect && !hideWinners && (
                 <div className="winner-selection">
                   <h3>Select Winners for {stage}</h3>
                   <ul>
                     {(stage === 'Semifinal' ? quarterfinalWinners : semifinalWinners).map((winner, index) => (
                       <li key={index}>
-                        <button onClick={() => handleWinnerSelection(winner)} className={selectedWinners.includes(winner) ? 'selected' : ''}>
+                        <button onClick={() => handleWinnerSelection(winner)} className={selectedWinners.includes(winner) ? 'selected' : ''} disabled={selectedWinners.length >= 2 && !selectedWinners.includes(winner)}>
                           {winner}
                         </button>
                       </li>
@@ -202,9 +210,14 @@ const App: React.FC = () => {
             </div>
           )}
         </div>
-        {showNewRoundButton && (
+        {showNewRoundButton && showNextRoundButton && stage !== 'Final' && (
           <button className="new-round-button" onClick={handleNewRound}>
             {finalComplete ? 'New Round?' : 'Next Round'}
+          </button>
+        )}
+        {showNewRoundButton && finalComplete && (
+          <button className="new-round-button" onClick={handleNewRound}>
+            New Round?
           </button>
         )}
         <ToastContainer />
