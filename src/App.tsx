@@ -25,7 +25,6 @@ const App: React.FC = () => {
   const [quarterfinalWinners, setQuarterfinalWinners] = useState<string[]>([]);
   const [semifinalWinners, setSemifinalWinners] = useState<string[]>([]);
   const [selectedWinners, setSelectedWinners] = useState<string[]>([]);
-  const [remainingWinners, setRemainingWinners] = useState<string[]>([]);
   const [quarterfinalCount, setQuarterfinalCount] = useState(0);
   const [semifinalCount, setSemifinalCount] = useState(0);
   const [finalComplete, setFinalComplete] = useState(false);
@@ -157,7 +156,7 @@ const App: React.FC = () => {
       {mode === 'detailed' && (
         <div className="results-list-container">
           <div className="results-list">
-            <h2>Previous Champions</h2>
+            <h2>Santournament</h2>
             <ul>
               {results.map((result, index) => (
                 <li key={index} className={result.stage}>{result.name}</li>
