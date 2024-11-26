@@ -53,7 +53,7 @@ const App: React.FC = () => {
     setSegments([winner]);
     setShowNewRoundButton(true);
     setWinnerName(winner.name);
-    setHideWinners(false);
+    setHideWinners(false); // Show the winners list again after the spin has completed
 
     if (mode === 'detailed') {
       if (stage === 'Quarterfinal') {
@@ -76,19 +76,19 @@ const App: React.FC = () => {
         }
       } else if (stage === 'Final') {
         setResults((prevResults) => [...prevResults, `Final: ${winner.name}`]);
-        setFinalComplete(true);
-        setStage('Quarterfinal');
+        setFinalComplete(true); // Set the flag for final completion
+        setStage('Quarterfinal'); // Reset to Quarterfinal after Final
         setQuarterfinalWinners([]);
         setSemifinalWinners([]);
         setSegments([]);
         setShowForm(true);
-        setQuarterfinalCount(0);
-        setSemifinalCount(0);
+        setQuarterfinalCount(0); // Reset counts
+        setSemifinalCount(0); // Reset counts
       }
     } else {
       setSimpleResults((prevResults) => [...prevResults, winner.name]);
     }
-    setShowNextRoundButton(true);
+    setShowNextRoundButton(true); // Show the next round button when a winner is announced
   };
 
   const handleNewRound = () => {
@@ -99,11 +99,11 @@ const App: React.FC = () => {
     setShowSpinButton(true);
     setWinnerName(null);
     if (finalComplete) {
-      setResults([]);
+      setResults([]); // Clear the result list only after the final stage
     }
-    setFinalComplete(false);
-    setHideWinners(false);
-    setShowNextRoundButton(false);
+    setFinalComplete(false); // Reset the final completion flag
+    setHideWinners(false); // Show the remaining winners again
+    setShowNextRoundButton(false); // Hide the next round button
   };
 
   const switchToSimpleMode = () => setMode('simple');
@@ -125,6 +125,13 @@ const App: React.FC = () => {
         handleStartNextStage(newSelected);
         setHideWinners(true); // Hide the remaining winners
         setShowNextRoundButton(false); // Hide the next round button
+      }
+
+      // Remove the selected winner from the list of winners of the previous stage
+      if (stage === 'Semifinal') {
+        setQuarterfinalWinners((prevWinners) => prevWinners.filter((w) => w !== winner));
+      } else if (stage === 'Final') {
+        setSemifinalWinners((prevWinners) => prevWinners.filter((w) => w !== winner));
       }
 
       return newSelected;
@@ -150,7 +157,7 @@ const App: React.FC = () => {
       {mode === 'detailed' && (
         <div className="results-list-container">
           <div className="results-list">
-            <h2>Previous Champions</h2>
+            <h2>Santournament</h2>
             <ul>
               {results.map((result, index) => (
                 <li key={index}>{result}</li>
@@ -191,7 +198,7 @@ const App: React.FC = () => {
               <SegmentList segments={segments} flashingColor={flashingColor} />
               {mode === 'detailed' && stage !== 'Quarterfinal' && winnersLeftToSelect && !hideWinners && (
                 <div className="winner-selection">
-                  <h3>Select Winners for {stage}</h3>
+                  <h3>Choose 2 winners for {stage} round</h3>
                   <ul>
                     {(stage === 'Semifinal' ? quarterfinalWinners : semifinalWinners).map((winner, index) => (
                       <li key={index}>

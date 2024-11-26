@@ -181,3 +181,44 @@ h1 {
     animation: tilt 2s infinite;
     margin: 0 20px;
   }
+
+.winner-selection {
+    margin-top: -40px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .winner-selection h3 {
+    text-align: center;
+  }
+  
+  .winner-selection ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .winner-selection li {
+    margin-bottom: 10px;
+  }
+  
+  .winner-selection button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    font-weight: bold;
+    background-color: #ffd700;
+    color: #677f8a;
+    
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .winner-selection button:hover {
+    background-color: #ffee91;
+  }
