@@ -8,7 +8,7 @@ import './App.css';
 import hohohoSound from './assets/hohoho.wav';
 import mrClaus from './assets/mrclaus.png';
 import mrsClaus from './assets/msclaus.png';
-import claussleigh from './assets/claussleigh.gif'; // Import the gif
+import claussleigh from './assets/claussleigh.gif';
 
 const App: React.FC = () => {
   const [segments, setSegments] = useState<Segment[]>([]);
@@ -21,16 +21,16 @@ const App: React.FC = () => {
   const [simpleResults, setSimpleResults] = useState<string[]>([]);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [mode, setMode] = useState<'simple' | 'detailed'>('simple');
-  const [stage, setStage] = useState<'Quarterfinal' | 'Semifinal' | 'Final'>('Quarterfinal'); // New state for tournament stage
+  const [stage, setStage] = useState<'Quarterfinal' | 'Semifinal' | 'Final'>('Quarterfinal');
   const [quarterfinalWinners, setQuarterfinalWinners] = useState<string[]>([]);
   const [semifinalWinners, setSemifinalWinners] = useState<string[]>([]);
-  const [selectedWinners, setSelectedWinners] = useState<string[]>([]); // New state for selected winners
-  const [remainingWinners, setRemainingWinners] = useState<string[]>([]); // New state for remaining winners
-  const [quarterfinalCount, setQuarterfinalCount] = useState(0); // Count for quarterfinals
-  const [semifinalCount, setSemifinalCount] = useState(0); // Count for semifinals
-  const [finalComplete, setFinalComplete] = useState(false); // Flag for final completion
-  const [hideWinners, setHideWinners] = useState(false); // New state to hide winners
-  const [showNextRoundButton, setShowNextRoundButton] = useState(true); // New state to show/hide the next round button
+  const [selectedWinners, setSelectedWinners] = useState<string[]>([]);
+  const [remainingWinners, setRemainingWinners] = useState<string[]>([]);
+  const [quarterfinalCount, setQuarterfinalCount] = useState(0);
+  const [semifinalCount, setSemifinalCount] = useState(0);
+  const [finalComplete, setFinalComplete] = useState(false);
+  const [hideWinners, setHideWinners] = useState(false);
+  const [showNextRoundButton, setShowNextRoundButton] = useState(true);
 
   useEffect(() => {
     const audio = new Audio(hohohoSound);
@@ -53,7 +53,7 @@ const App: React.FC = () => {
     setSegments([winner]);
     setShowNewRoundButton(true);
     setWinnerName(winner.name);
-    setHideWinners(false); // Show the winners list again after the spin has completed
+    setHideWinners(false);
 
     if (mode === 'detailed') {
       if (stage === 'Quarterfinal') {
@@ -76,19 +76,19 @@ const App: React.FC = () => {
         }
       } else if (stage === 'Final') {
         setResults((prevResults) => [...prevResults, `Final: ${winner.name}`]);
-        setFinalComplete(true); // Set the flag for final completion
-        setStage('Quarterfinal'); // Reset to Quarterfinal after Final
+        setFinalComplete(true);
+        setStage('Quarterfinal');
         setQuarterfinalWinners([]);
         setSemifinalWinners([]);
         setSegments([]);
         setShowForm(true);
-        setQuarterfinalCount(0); // Reset counts
-        setSemifinalCount(0); // Reset counts
+        setQuarterfinalCount(0);
+        setSemifinalCount(0);
       }
     } else {
       setSimpleResults((prevResults) => [...prevResults, winner.name]);
     }
-    setShowNextRoundButton(true); // Show the next round button when a winner is announced
+    setShowNextRoundButton(true);
   };
 
   const handleNewRound = () => {
@@ -99,11 +99,11 @@ const App: React.FC = () => {
     setShowSpinButton(true);
     setWinnerName(null);
     if (finalComplete) {
-      setResults([]); // Clear the result list only after the final stage
+      setResults([]);
     }
-    setFinalComplete(false); // Reset the final completion flag
-    setHideWinners(false); // Show the remaining winners again
-    setShowNextRoundButton(false); // Hide the next round button
+    setFinalComplete(false);
+    setHideWinners(false);
+    setShowNextRoundButton(false);
   };
 
   const switchToSimpleMode = () => setMode('simple');
