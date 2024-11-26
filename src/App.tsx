@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Wheel from './Components/Wheel/Wheel';
-import Segments, { Segment } from './Components/Contenders/Contenders';
+import Segments, { Segment, getRandomColor } from './Components/Contenders/Contenders';
 import SegmentList from './Components/ContenderList/ContenderList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,9 +17,13 @@ const App: React.FC = () => {
   const [showSpinButton, setShowSpinButton] = useState(true);
   const [winnerName, setWinnerName] = useState<string | null>(null);
   const [results, setResults] = useState<string[]>([]);
-  const [simpleResults, setSimpleResults] = useState<string[]>([]); // New state for simple mode results
+  const [simpleResults, setSimpleResults] = useState<string[]>([]);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
-  const [mode, setMode] = useState<'simple' | 'detailed'>('simple'); // New state for mode
+  const [mode, setMode] = useState<'simple' | 'detailed'>('simple');
+  const [stage, setStage] = useState<'Quarterfinal' | 'Semifinal' | 'Final'>('Quarterfinal'); // New state for tournament stage
+  const [quarterfinalWinners, setQuarterfinalWinners] = useState<string[]>([]);
+  const [semifinalWinners, setSemifinalWinners] = useState<string[]>([]);
+  const [selectedWinners, setSelectedWinners] = useState<string[]>([]); // New state for selected winners
 
   useEffect(() => {
     const audio = new Audio(hohohoSound);
@@ -44,7 +48,30 @@ const App: React.FC = () => {
     setWinnerName(winner.name);
 
     if (mode === 'detailed') {
-      setResults((prevResults) => [...prevResults, winner.name]);
+      if (stage === 'Quarterfinal') {
+        setQuarterfinalWinners((prevWinners) => [...prevWinners, winner.name]);
+        setResults((prevResults) => [...prevResults, `Quarterfinal: ${winner.name}`]);
+        if (quarterfinalWinners.length + 1 === 4) {
+          setStage('Semifinal');
+          setSegments([]);
+          setShowForm(false);
+        }
+      } else if (stage === 'Semifinal') {
+        setSemifinalWinners((prevWinners) => [...prevWinners, winner.name]);
+        setResults((prevResults) => [...prevResults, `Semifinal: ${winner.name}`]);
+        if (semifinalWinners.length + 1 === 2) {
+          setStage('Final');
+          setSegments([]);
+          setShowForm(false);
+        }
+      } else if (stage === 'Final') {
+        setResults((prevResults) => [...prevResults, `Final: ${winner.name}`]);
+        setStage('Quarterfinal'); // Reset to Quarterfinal after Final
+        setQuarterfinalWinners([]);
+        setSemifinalWinners([]);
+        setSegments([]);
+        setShowForm(true);
+      }
     } else {
       setSimpleResults((prevResults) => [...prevResults, winner.name]);
     }
@@ -61,6 +88,38 @@ const App: React.FC = () => {
 
   const switchToSimpleMode = () => setMode('simple');
   const switchToDetailedMode = () => setMode('detailed');
+
+  const handleWinnerSelection = (winner: string) => {
+    setSelectedWinners((prevSelected) => {
+      const newSelected = prevSelected.includes(winner)
+        ? prevSelected.filter((w) => w !== winner)
+        : prevSelected.length < 2
+        ? [...prevSelected, winner]
+        : prevSelected;
+
+      if (newSelected.length <= 2) {
+        setSegments(newSelected.map((name) => ({ name, color: getRandomColor() })));
+      }
+
+      if (newSelected.length === 2) {
+        handleStartNextStage(newSelected);
+      }
+
+      return newSelected;
+    });
+  };
+
+  const handleStartNextStage = (winners: string[]) => {
+    setSegments(winners.map((name) => ({ name, color: getRandomColor() }))); // Assign a random color
+    setSelectedWinners([]);
+    setShowSpinButton(true);
+
+    if (stage === 'Semifinal') {
+      setQuarterfinalWinners((prevWinners) => prevWinners.filter((winner) => !winners.includes(winner)));
+    } else if (stage === 'Final') {
+      setSemifinalWinners((prevWinners) => prevWinners.filter((winner) => !winners.includes(winner)));
+    }
+  };
 
   return (
     <div className="app-container">
@@ -102,11 +161,26 @@ const App: React.FC = () => {
           </div>
           <div className="wheel-and-form">
             <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} />
-            {showForm && <Segments segments={segments} setSegments={setSegments} />}
+            {showForm && mode === 'simple' && <Segments segments={segments} setSegments={setSegments} />}
+            {showForm && mode === 'detailed' && stage === 'Quarterfinal' && <Segments segments={segments} setSegments={setSegments} />}
             <SegmentList segments={segments} flashingColor={flashingColor} />
+            {mode === 'detailed' && stage !== 'Quarterfinal' && (
+              <div className="winner-selection">
+                <h3>Select Winners for {stage}</h3>
+                <ul>
+                  {(stage === 'Semifinal' ? quarterfinalWinners : semifinalWinners).map((winner, index) => (
+                    <li key={index}>
+                      <button onClick={() => handleWinnerSelection(winner)} className={selectedWinners.includes(winner) ? 'selected' : ''}>
+                        {winner}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
-        {showNewRoundButton && <button className="new-round-button" onClick={handleNewRound}>New Round?</button>}
+        {showNewRoundButton && stage === 'Quarterfinal' && <button className="new-round-button" onClick={handleNewRound}>New Round?</button>}
         <ToastContainer />
       </div>
     </div>
