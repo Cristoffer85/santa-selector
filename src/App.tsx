@@ -9,8 +9,7 @@ import hohohoSound from './assets/hohoho.wav';
 import mrClaus from './assets/mrclaus.png';
 import mrsClaus from './assets/msclaus.png';
 import claussleigh from './assets/claussleigh.gif';
-import menuOpenIcon from './assets/menu_open.svg';
-import menuCloseIcon from './assets/menu_close.svg';
+import { HiTrophy, HiOutlineTrophy } from 'react-icons/hi2';
 
 const App: React.FC = () => {
   const [segments, setSegments] = useState<Segment[]>([]);
@@ -44,6 +43,7 @@ const App: React.FC = () => {
     setShowNewRoundButton(false);
     setShowSpinButton(false);
     setWinnerName(null);
+    setFlashingColor(null); // Reset flashing color at the start of a spin
   };
 
   const handleSpinEnd = (winner: Segment) => {
@@ -66,6 +66,7 @@ const App: React.FC = () => {
           setStage('Semifinal');
           setSegments([]);
           setShowForm(false);
+          setFlashingColor(null); // Reset flashing color when transitioning to semifinals
         }
       } else if (stage === 'Semifinal') {
         setSemifinalWinners((prevWinners) => [...prevWinners, winner.name]);
@@ -75,6 +76,7 @@ const App: React.FC = () => {
           setStage('Final');
           setSegments([]);
           setShowForm(false);
+          setFlashingColor(null); // Reset flashing color when transitioning to finals
         }
       } else if (stage === 'Final') {
         setResults((prevResults) => [...prevResults, { stage: 'final', name: `Final: ${winner.name}` }]);
@@ -86,6 +88,7 @@ const App: React.FC = () => {
         setShowForm(true);
         setQuarterfinalCount(0); // Reset counts
         setSemifinalCount(0); // Reset counts
+        setFlashingColor(null); // Reset flashing color after final
       }
     } else {
       setSimpleResults((prevResults) => [...prevResults, winner.name]);
@@ -94,7 +97,7 @@ const App: React.FC = () => {
   };
 
   const handleNewRound = () => {
-    setFlashingColor(null);
+    setFlashingColor(null); // Reset flashing color when starting a new round
     setShowForm(true);
     setShowNewRoundButton(false);
     setSegments([]);
@@ -144,6 +147,7 @@ const App: React.FC = () => {
     setSegments(winners.map((name) => ({ name, color: getRandomColor() }))); // Assign a random color
     setSelectedWinners([]);
     setShowSpinButton(true);
+    setFlashingColor(null); // Reset flashing color when starting the next stage
 
     if (stage === 'Semifinal') {
       setQuarterfinalWinners((prevWinners) => prevWinners.filter((winner) => !winners.includes(winner)));
@@ -182,6 +186,7 @@ const App: React.FC = () => {
           <img src={mrClaus} alt="Mr. Claus" className="tilting-image" />
           {!winnerName && showSpinButton && <h1>Welcome to the Santa selector!</h1>}
           {winnerName && stage !== 'Final' && <h1>Winner is {winnerName}!</h1>}
+          {winnerName && stage === 'Final' && <h1> Winner is {winnerName}!</h1>}
           <img src={mrsClaus} alt="Mrs. Claus" className="tilting-image" />
         </div>
         <div className={`main-content ${finalComplete ? 'final-stage' : ''}`}>
@@ -199,12 +204,12 @@ const App: React.FC = () => {
               </button>
             </div>
           </div>
-          <img 
-            src={menuOpen ? menuCloseIcon : menuOpenIcon} 
-            alt="Menu Toggle" 
+          <div 
             className="menu-toggle" 
             onClick={toggleMenu} 
-          />
+          >
+            {menuOpen ? <HiTrophy /> : <HiOutlineTrophy />}
+          </div>
           {!finalComplete && (
             <div className="wheel-and-form">
               <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} />

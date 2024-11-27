@@ -61,7 +61,6 @@
 }
 
 .new-round-button {
-  margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
@@ -74,7 +73,6 @@
 
 .new-round-button:hover {
   background-color: #45a049;
-  transform: scale(1.1);
 }
 
 /* Media Queries for responsiveness */
@@ -103,7 +101,10 @@
   }
 
   .new-round-button {
-    font-size: 14px;
-    padding: 8px 16px;
+    position: absolute;
+    top: 63%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
   }
 }

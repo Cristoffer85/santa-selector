@@ -44,7 +44,7 @@
 /* Media Queries for responsiveness */
 @media (max-width: 768px) {
   .segment-list {
-    margin-top: 20px;
+    margin-top: 0px;
   }
 
   .segment-list h2 {
