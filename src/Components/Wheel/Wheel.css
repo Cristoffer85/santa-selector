@@ -80,8 +80,8 @@
 /* Media Queries for responsiveness */
 @media (max-width: 768px) {
   .wheel-container {
-    max-width: 200px;
-    height: 200px;
+    max-width: 250px;
+    height: 250px;
   }
 
   .arrow {

@@ -9,6 +9,8 @@ import hohohoSound from './assets/hohoho.wav';
 import mrClaus from './assets/mrclaus.png';
 import mrsClaus from './assets/msclaus.png';
 import claussleigh from './assets/claussleigh.gif';
+import menuOpenIcon from './assets/menu_open.svg';
+import menuCloseIcon from './assets/menu_close.svg';
 
 const App: React.FC = () => {
   const [segments, setSegments] = useState<Segment[]>([]);
@@ -30,6 +32,7 @@ const App: React.FC = () => {
   const [finalComplete, setFinalComplete] = useState(false);
   const [hideWinners, setHideWinners] = useState(false);
   const [showNextRoundButton, setShowNextRoundButton] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const audio = new Audio(hohohoSound);
@@ -151,6 +154,15 @@ const App: React.FC = () => {
 
   const winnersLeftToSelect = (stage === 'Semifinal' ? quarterfinalWinners : semifinalWinners).length > 0;
 
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+    if (mode === 'simple') {
+      switchToDetailedMode();
+    } else {
+      switchToSimpleMode();
+    }
+  };
+
   return (
     <div className="app-container">
       {mode === 'detailed' && (
@@ -173,22 +185,26 @@ const App: React.FC = () => {
           <img src={mrsClaus} alt="Mrs. Claus" className="tilting-image" />
         </div>
         <div className={`main-content ${finalComplete ? 'final-stage' : ''}`}>
-          <div className="left-column">
+          <div className={`left-column ${menuOpen ? 'hidden' : ''}`}>
             <div className="mode-buttons">
               <button 
                 onClick={switchToDetailedMode} 
-                className={mode === 'detailed' ? 'active' : ''}
-              >
+                className={mode === 'detailed' ? 'active' : ''}>
                 TOURNAMENT MODE
               </button>
               <button 
                 onClick={switchToSimpleMode} 
-                className={mode === 'simple' ? 'active' : ''}
-              >
+                className={mode === 'simple' ? 'active' : ''}>
                 SIMPLE MODE
               </button>
             </div>
           </div>
+          <img 
+            src={menuOpen ? menuCloseIcon : menuOpenIcon} 
+            alt="Menu Toggle" 
+            className="menu-toggle" 
+            onClick={toggleMenu} 
+          />
           {!finalComplete && (
             <div className="wheel-and-form">
               <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} />
