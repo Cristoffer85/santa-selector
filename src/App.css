@@ -338,9 +338,4 @@ h1 {
     max-width: 500px;
     height: auto;
   }
-  
-}
-
-.left-column.hidden {
-  display: none;
 }
