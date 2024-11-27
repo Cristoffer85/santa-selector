@@ -40,3 +40,20 @@
 .flashing {
   animation: flashColor 0.18s infinite; /* Flash every 0.18 seconds */
 }
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+  .segment-list {
+    margin-top: 20px;
+  }
+
+  .segment-list h2 {
+    font-size: 1.2em;
+  }
+
+  .segment-list li {
+    padding: 8px;
+    margin: 3px;
+    font-size: 0.9em;
+  }
+}

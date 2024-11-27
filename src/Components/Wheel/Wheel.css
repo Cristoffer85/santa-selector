@@ -76,3 +76,34 @@
   background-color: #45a049;
   transform: scale(1.1);
 }
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+  .wheel-container {
+    max-width: 200px;
+    height: 200px;
+  }
+
+  .arrow {
+    width: 30px;
+    top: -40px;
+  }
+
+  .spin-button-container {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    z-index: 2;
+  }
+
+  .spin-button {
+    font-size: 18px;
+    padding: 5px 10px;
+  }
+
+  .new-round-button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

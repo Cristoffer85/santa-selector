@@ -41,3 +41,25 @@
 .addcontender-button:hover {
   background-color: #45a049;
 }
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+  .input-container {
+    position: static;
+    transform: none;
+    width: 80%;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .input-container input {
+    width: 100%;
+  }
+
+  .addcontender-button {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

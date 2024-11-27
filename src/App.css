@@ -234,3 +234,59 @@ h1 {
   .winner-selection button:hover {
     background-color: #ffee91;
   }
+
+  @media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .app {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .header-container {
+        flex-direction: column;
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .header-container img {
+        margin: 10px 0;
+    }
+
+    .main-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left-column {
+        position: static;
+        transform: none;
+        margin-bottom: 20px;
+    }
+
+    .mode-buttons {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .mode-buttons button {
+        transform: rotate(0);
+    }
+
+    .results-list-container {
+        width: 80%;
+        margin-bottom: 20px;
+        order: 1; /* Ensure it appears below other content */
+    }
+
+    .results-list h2 {
+        font-size: 1rem;
+    }
+
+    .results-list li {
+        font-size: 0.9rem;
+    }
+}
