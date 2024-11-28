@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const [showSpinButton, setShowSpinButton] = useState(true);
   const [winnerName, setWinnerName] = useState<string | null>(null);
   const [results, setResults] = useState<{ stage: string; name: string }[]>([]);
-  const [simpleResults, setSimpleResults] = useState<string[]>([]);
+  const [, setSimpleResults] = useState<string[]>([]);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [mode, setMode] = useState<'simple' | 'detailed'>('simple');
   const [stage, setStage] = useState<'Quarterfinal' | 'Semifinal' | 'Final'>('Quarterfinal');
