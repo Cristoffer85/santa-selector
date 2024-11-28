@@ -51,7 +51,7 @@ body {
 h1 {
   font-size: 2.5rem;
   color: #ffd700;
-  margin: 0;
+  margin: 10px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -243,29 +243,46 @@ h1 {
   background-color: #ffee91;
 }
 
-@media (min-width: 769px) {
-  .new-round-button {
-    position: static;
-    transform: none;
+@media (min-width: 769px) and (max-width: 1200px) {
+  .app-container {
+    flex-direction: column;
+    align-items: center;
   }
 
+  .menu-toggle {
+    display: none; /* Hide the menu toggle button on medium screens */
+  }
+
+  .results-list-container {
+    order: 2; /* Ensure results list appears below main content */
+    width: 70%; /* Adjust width as needed */
+    margin-top: 20px; /* Add some spacing */
+  }
+
+  .main-content {
+    order: 1; /* Ensure main content appears first */
+    width: 100%; /* Ensure main content takes full width */
+  }
+}
+
+@media (min-width: 1201px) {
   .app-container {
     display: flex;
     flex-direction: row;
   }
 
   .results-list-container {
-    width: 25%; 
+    width: 25%; /* Adjust width as needed */
     margin-right: 20px;
-    order: 0; 
+    order: 0; /* Ensure it appears to the left */
   }
 
   .main-content {
-    width: 75%; 
+    width: 75%; /* Adjust width as needed */
   }
 
   .menu-toggle {
-    display: none; 
+    display: none; /* Hide the menu toggle button on larger screens */
   }
 }
 
@@ -285,7 +302,7 @@ h1 {
   .header-container {
     flex-direction: column;
     height: auto;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
   }
 
   .header-container h1 {
@@ -300,20 +317,22 @@ h1 {
   .main-content {
     flex-direction: column;
     align-items: center;
-    width: 100%; 
-    order: 1; 
+    width: 100%; /* Ensure main content takes full width */
+    order: 1;
   }
 
   .results-list-container {
-    order: 2; 
+    width: 70%; /* Adjust width as needed */
+    order: 2; /* Ensure results list appears below main content */
+    margin-top: 10px; /* Add some spacing */
   }
 
   .left-column {
-    display: none; 
+    display: none; /* Hide the left column for screens up to 768px */
   }
 
   .menu-toggle {
-    display: block; 
+    display: block; /* Show the menu toggle button on smaller screens */
     cursor: pointer;
     position: absolute;
     top: 10px;
@@ -335,7 +354,6 @@ h1 {
 
   .final-stage img {
     width: 100%;
-    max-width: 500px;
-    height: auto;
+    max-width: 300px;
   }
 }
