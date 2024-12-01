@@ -1,14 +1,18 @@
 import { useAppHandlers } from './Hooks/UseAppHandlers/UseAppHandlers';
-import Segments from './Components/Contenders/Contenders';
-import Wheel from './Components/Wheel/Wheel';
-import SegmentList from './Components/ContenderList/ContenderList';
-import { ToastContainer } from 'react-toastify';
+
+import WheelAddSegment from './Components/WheelAddSegment/WheelAddSegment';
+import WheelSpin from './Components/WheelSpin/WheelSpin';
+import ContenderList from './Components/ContenderList/ContenderList';
+
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+
 import mrClaus from './assets/mrclaus.png';
 import mrsClaus from './assets/msclaus.png';
 import claussleigh from './assets/claussleigh.gif';
+
 import { HiTrophy, HiOutlineTrophy } from 'react-icons/hi2';
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
   const initialState = {
@@ -65,7 +69,7 @@ const App = () => {
 
   return (
     <div className="app-container">
-      {mode === 'detailed' && (
+      {mode === 'Tournament' && (
         <div className="results-list-container">
           <div className="results-list">
             <h2>Santournament</h2>
@@ -90,12 +94,12 @@ const App = () => {
             <div className="mode-buttons">
               <button 
                 onClick={switchToDetailedMode} 
-                className={mode === 'detailed' ? 'active' : ''}>
+                className={mode === 'Tournament' ? 'active' : ''}>
                 TOURNAMENT MODE
               </button>
               <button 
                 onClick={switchToSimpleMode} 
-                className={mode === 'simple' ? 'active' : ''}>
+                className={mode === 'Simple' ? 'active' : ''}>
                 SIMPLE MODE
               </button>
             </div>
@@ -108,11 +112,11 @@ const App = () => {
           </div>
           {!finalComplete && (
             <div className="wheel-and-form">
-              <Wheel segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} />
-              {showForm && mode === 'simple' && <Segments segments={segments} setSegments={setSegments} />}
-              {showForm && mode === 'detailed' && stage === 'Quarterfinal' && <Segments segments={segments} setSegments={setSegments} />}
-              <SegmentList segments={segments} flashingColor={flashingColor} />
-              {mode === 'detailed' && stage !== 'Quarterfinal' && winnersLeftToSelect && !hideWinners && (
+              <WheelSpin segments={segments} setFlashingColor={setFlashingColor} onSpinStart={handleSpinStart} onSpinEnd={handleSpinEnd} showSpinButton={showSpinButton} />
+              {showForm && mode === 'Simple' && <WheelAddSegment segments={segments} setSegments={setSegments} />}
+              {showForm && mode === 'Tournament' && stage === 'Quarterfinal' && <WheelAddSegment segments={segments} setSegments={setSegments} />}
+              <ContenderList segments={segments} flashingColor={flashingColor} />
+              {mode === 'Tournament' && stage !== 'Quarterfinal' && winnersLeftToSelect && !hideWinners && (
                 <div className="winner-selection">
                   <h3>Select Winners for {stage}</h3>
                   <ul>

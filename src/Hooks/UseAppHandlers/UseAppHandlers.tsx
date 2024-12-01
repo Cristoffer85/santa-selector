@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Segment } from '../../Types/Types';
-import { getRandomColor } from '../../Components/Contenders/Contenders';
+import { getRandomColor } from '../../Utils/RandomColor';
 import hohohoSound from '../../assets/hohoho.wav';
 
 export const useAppHandlers = (initialState: any) => {
-  const switchToSimpleMode = () => setMode('simple');
-  const switchToDetailedMode = () => setMode('detailed');
+  const switchToSimpleMode = () => setMode('Simple');
+  const switchToDetailedMode = () => setMode('Tournament');
 
   const [results, setResults] = useState<{ stage: string; name: string }[]>(initialState.results);
   const [simpleResults, setSimpleResults] = useState<string[]>(initialState.simpleResults);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(initialState.audio);
-  const [mode, setMode] = useState<'simple' | 'detailed'>(initialState.mode);
+  const [mode, setMode] = useState<'Simple' | 'Tournament'>(initialState.mode);
 
   const [stage, setStage] = useState<'Quarterfinal' | 'Semifinal' | 'Final'>(initialState.stage);
   const [quarterfinalCount, setQuarterfinalCount] = useState(initialState.quarterfinalCount);
@@ -57,7 +57,7 @@ export const useAppHandlers = (initialState: any) => {
     setWinnerName(winner.name);
     setHideWinners(false); 
 
-    if (mode === 'detailed') {
+    if (mode === 'Tournament') {
       if (stage === 'Quarterfinal') {
         setQuarterfinalWinners((prevWinners) => [...prevWinners, winner.name]);
         setResults((prevResults) => [...prevResults, { stage: 'quarterfinal', name: `Quarter Final ${quarterfinalCount + 1}: ${winner.name}` }]);
@@ -154,7 +154,7 @@ export const useAppHandlers = (initialState: any) => {
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
-    if (mode === 'simple') {
+    if (mode === 'Simple') {
       switchToDetailedMode();
     } else {
       switchToSimpleMode();

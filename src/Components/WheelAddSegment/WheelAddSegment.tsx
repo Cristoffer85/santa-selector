@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
-import './Contenders.css';
-import { Segment } from '../../Types/Types';
+import './WheelAddSegment.css';
+import { Definitions } from '../../Types/Types';
+import { getRandomColor } from '../../Utils/RandomColor';
 
-export const getRandomColor = () => {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-};
-
-const Segments: React.FC<{ segments: Segment[], setSegments: (segments: Segment[]) => void }> = ({ segments, setSegments }) => {
+const WheelAddSegment: React.FC<{ segments: Definitions[], setSegments: (segments: Definitions[]) => void }> = ({ segments, setSegments }) => {
   const [inputValue, setInputValue] = useState<string>('');
 
   const handleAddSegment = () => {
@@ -37,4 +29,4 @@ const Segments: React.FC<{ segments: Segment[], setSegments: (segments: Segment[
   );
 };
 
-export default Segments;
+export default WheelAddSegment;

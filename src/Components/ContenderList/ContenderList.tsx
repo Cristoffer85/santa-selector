@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './ContenderList.css'; 
-import { Segment } from '../../Types/Types';
+import { Definitions } from '../../Types/Types';
 
-interface SegmentListProps {
-  segments: Segment[];
+interface ContenderListProps {
+  segments: Definitions[];
   flashingColor: string | null;
 }
 
-const SegmentList: React.FC<SegmentListProps> = ({ segments, flashingColor }) => {
+const ContenderList: React.FC<ContenderListProps> = ({ segments, flashingColor }) => {
   const [flashingSegment, setFlashingSegment] = useState<string | null>(null);
 
   useEffect(() => {
@@ -38,4 +38,4 @@ const SegmentList: React.FC<SegmentListProps> = ({ segments, flashingColor }) =>
   );
 };
 
-export default SegmentList;
+export default ContenderList;

@@ -1,14 +1,14 @@
 import React, { useRef } from 'react';
-import './Wheel.css';
+import './WheelSpin.css';
 import arrowImage from '../../assets/wheelarrow.png';
 import { toast } from 'react-toastify';
-import { Segment } from '../../Types/Types';
+import { Definitions } from '../../Types/Types';
 
 interface WheelProps {
-  segments: Segment[];
+  segments: Definitions[];
   setFlashingColor: React.Dispatch<React.SetStateAction<string | null>>;
   onSpinStart: () => void;
-  onSpinEnd: (winner: Segment) => void;
+  onSpinEnd: (winner: Definitions) => void;
   showSpinButton: boolean;
 }
 
@@ -64,7 +64,7 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, 
         {showSpinButton ? (
           <button className="spin-button" onClick={spinWheel}>Spin!</button>
         ) : (
-          <div style={{ width: '150px' }}></div> // Placeholder element
+          <div style={{ width: '150px' }}></div>
         )}
       </div>
     </div>
