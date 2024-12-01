@@ -1,171 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import { useAppHandlers } from './Hooks/UseAppHandlers/UseAppHandlers';
+import Segments from './Components/Contenders/Contenders';
 import Wheel from './Components/Wheel/Wheel';
-import Segments, { Segment, getRandomColor } from './Components/Contenders/Contenders';
 import SegmentList from './Components/ContenderList/ContenderList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import hohohoSound from './assets/hohoho.wav';
 import mrClaus from './assets/mrclaus.png';
 import mrsClaus from './assets/msclaus.png';
 import claussleigh from './assets/claussleigh.gif';
 import { HiTrophy, HiOutlineTrophy } from 'react-icons/hi2';
 
-const App: React.FC = () => {
-  const [segments, setSegments] = useState<Segment[]>([]);
-  const [flashingColor, setFlashingColor] = useState<string | null>(null);
-  const [showForm, setShowForm] = useState(true);
-  const [showNewRoundButton, setShowNewRoundButton] = useState(false);
-  const [showSpinButton, setShowSpinButton] = useState(true);
-  const [winnerName, setWinnerName] = useState<string | null>(null);
-  const [results, setResults] = useState<{ stage: string; name: string }[]>([]);
-  const [, setSimpleResults] = useState<string[]>([]);
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
-  const [mode, setMode] = useState<'simple' | 'detailed'>('simple');
-  const [stage, setStage] = useState<'Quarterfinal' | 'Semifinal' | 'Final'>('Quarterfinal');
-  const [quarterfinalWinners, setQuarterfinalWinners] = useState<string[]>([]);
-  const [semifinalWinners, setSemifinalWinners] = useState<string[]>([]);
-  const [selectedWinners, setSelectedWinners] = useState<string[]>([]);
-  const [quarterfinalCount, setQuarterfinalCount] = useState(0);
-  const [semifinalCount, setSemifinalCount] = useState(0);
-  const [finalComplete, setFinalComplete] = useState(false);
-  const [hideWinners, setHideWinners] = useState(false);
-  const [showNextRoundButton, setShowNextRoundButton] = useState(true);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const audio = new Audio(hohohoSound);
-    setAudio(audio);
-  }, []);
-
-  const handleSpinStart = () => {
-    setShowForm(false);
-    setShowNewRoundButton(false);
-    setShowSpinButton(false);
-    setWinnerName(null);
-    setFlashingColor(null); // Reset flashing color at the start of a spin
+const App = () => {
+  const initialState = {
+    winnerName: null,
+    results: [],
+    simpleResults: [],
+    audio: null,
+    mode: 'simple',
+    stage: 'Quarterfinal',
+    quarterfinalWinners: [],
+    semifinalWinners: [],
+    selectedWinners: [],
+    quarterfinalCount: 0,
+    semifinalCount: 0,
+    finalComplete: false,
+    hideWinners: false,
+    showNextRoundButton: false,
+    menuOpen: false,
+    flashingColor: null,
+    segments: [],
+    showForm: true,
+    showSpinButton: true,
+    showNewRoundButton: false,
   };
 
-  const handleSpinEnd = (winner: Segment) => {
-    if (audio) {
-      audio.play();
-    }
-
-    setFlashingColor(winner.color);
-    setSegments([winner]);
-    setShowNewRoundButton(true);
-    setWinnerName(winner.name);
-    setHideWinners(false); // Show the winners list again after the spin has completed
-
-    if (mode === 'detailed') {
-      if (stage === 'Quarterfinal') {
-        setQuarterfinalWinners((prevWinners) => [...prevWinners, winner.name]);
-        setResults((prevResults) => [...prevResults, { stage: 'quarterfinal', name: `Quarter Final ${quarterfinalCount + 1}: ${winner.name}` }]);
-        setQuarterfinalCount(quarterfinalCount + 1);
-        if (quarterfinalWinners.length + 1 === 4) {
-          setStage('Semifinal');
-          setSegments([]);
-          setShowForm(false);
-          setFlashingColor(null); // Reset flashing color when transitioning to semifinals
-        }
-      } else if (stage === 'Semifinal') {
-        setSemifinalWinners((prevWinners) => [...prevWinners, winner.name]);
-        setResults((prevResults) => [...prevResults, { stage: 'semifinal', name: `Semi Final ${semifinalCount + 1}: ${winner.name}` }]);
-        setSemifinalCount(semifinalCount + 1);
-        if (semifinalWinners.length + 1 === 2) {
-          setStage('Final');
-          setSegments([]);
-          setShowForm(false);
-          setFlashingColor(null); // Reset flashing color when transitioning to finals
-        }
-      } else if (stage === 'Final') {
-        setResults((prevResults) => [...prevResults, { stage: 'final', name: `Final: ${winner.name}` }]);
-        setFinalComplete(true); // Set the flag for final completion
-        setStage('Quarterfinal'); // Reset to Quarterfinal after Final
-        setQuarterfinalWinners([]);
-        setSemifinalWinners([]);
-        setSegments([]);
-        setShowForm(true);
-        setQuarterfinalCount(0); // Reset counts
-        setSemifinalCount(0); // Reset counts
-        setFlashingColor(null); // Reset flashing color after final
-      }
-    } else {
-      setSimpleResults((prevResults) => [...prevResults, winner.name]);
-    }
-    setShowNextRoundButton(true); // Show the next round button when a winner is announced
-  };
-
-  const handleNewRound = () => {
-    setFlashingColor(null); // Reset flashing color when starting a new round
-    setShowForm(true);
-    setShowNewRoundButton(false);
-    setSegments([]);
-    setShowSpinButton(true);
-    setWinnerName(null);
-    if (finalComplete) {
-      setResults([]); // Clear the result list only after the final stage
-    }
-    setFinalComplete(false); // Reset the final completion flag
-    setHideWinners(false); // Show the remaining winners again
-    setShowNextRoundButton(false); // Hide the next round button
-  };
-
-  const switchToSimpleMode = () => setMode('simple');
-  const switchToDetailedMode = () => setMode('detailed');
-
-  const handleWinnerSelection = (winner: string) => {
-    setSelectedWinners((prevSelected) => {
-      const newSelected = prevSelected.includes(winner)
-        ? prevSelected.filter((w) => w !== winner)
-        : prevSelected.length < 2
-        ? [...prevSelected, winner]
-        : prevSelected;
-
-      if (newSelected.length <= 2) {
-        setSegments(newSelected.map((name) => ({ name, color: getRandomColor() })));
-      }
-
-      if (newSelected.length === 2) {
-        handleStartNextStage(newSelected);
-        setHideWinners(true); // Hide the remaining winners
-        setShowNextRoundButton(false); // Hide the next round button
-      }
-
-      // Remove the selected winner from the list of winners of the previous stage
-      if (stage === 'Semifinal') {
-        setQuarterfinalWinners((prevWinners) => prevWinners.filter((w) => w !== winner));
-      } else if (stage === 'Final') {
-        setSemifinalWinners((prevWinners) => prevWinners.filter((w) => w !== winner));
-      }
-
-      return newSelected;
-    });
-  };
-
-  const handleStartNextStage = (winners: string[]) => {
-    setSegments(winners.map((name) => ({ name, color: getRandomColor() }))); // Assign a random color
-    setSelectedWinners([]);
-    setShowSpinButton(true);
-    setFlashingColor(null); // Reset flashing color when starting the next stage
-
-    if (stage === 'Semifinal') {
-      setQuarterfinalWinners((prevWinners) => prevWinners.filter((winner) => !winners.includes(winner)));
-    } else if (stage === 'Final') {
-      setSemifinalWinners((prevWinners) => prevWinners.filter((winner) => !winners.includes(winner)));
-    }
-  };
-
-  const winnersLeftToSelect = (stage === 'Semifinal' ? quarterfinalWinners : semifinalWinners).length > 0;
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-    if (mode === 'simple') {
-      switchToDetailedMode();
-    } else {
-      switchToSimpleMode();
-    }
-  };
+  const {
+    handleSpinStart,
+    handleSpinEnd,
+    handleNewRound,
+    handleWinnerSelection,
+    switchToSimpleMode,
+    switchToDetailedMode,
+    toggleMenu,
+    flashingColor,
+    segments,
+    showNewRoundButton,
+    winnerName,
+    hideWinners,
+    mode,
+    stage,
+    quarterfinalWinners,
+    semifinalWinners,
+    results,
+    finalComplete,
+    showNextRoundButton,
+    showForm,
+    showSpinButton,
+    selectedWinners,
+    menuOpen,
+    setFlashingColor,
+    setSegments,
+    winnersLeftToSelect,
+  } = useAppHandlers(initialState);
 
   return (
     <div className="app-container">

@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import './Contenders.css';
-
-export interface Segment {
-  name: string;
-  color: string;
-}
+import { Segment } from '../../Types/Types';
 
 export const getRandomColor = () => {
   const letters = '0123456789ABCDEF';

@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './ContenderList.css'; 
-
-interface Segment {
-  name: string;
-  color: string;
-}
+import { Segment } from '../../Types/Types';
 
 interface SegmentListProps {
   segments: Segment[];

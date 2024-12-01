@@ -2,11 +2,7 @@ import React, { useRef } from 'react';
 import './Wheel.css';
 import arrowImage from '../../assets/wheelarrow.png';
 import { toast } from 'react-toastify';
-
-interface Segment {
-  name: string;
-  color: string;
-}
+import { Segment } from '../../Types/Types';
 
 interface WheelProps {
   segments: Segment[];
