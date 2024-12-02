@@ -1,4 +1,5 @@
 import { useAppHandlers } from './Hooks/UseAppHandlers/UseAppHandlers';
+import initialState from './States/UseInitialState';
 
 import WheelAddSegment from './Components/WheelAddSegment/WheelAddSegment';
 import WheelSpin from './Components/WheelSpin/WheelSpin';
@@ -15,29 +16,6 @@ import { HiTrophy, HiOutlineTrophy } from 'react-icons/hi2';
 import { ToastContainer } from 'react-toastify';
 
 const App = () => {
-  const initialState = {
-    winnerName: null,
-    results: [],
-    simpleResults: [],
-    audio: null,
-    mode: 'simple',
-    stage: 'Quarterfinal',
-    quarterfinalWinners: [],
-    semifinalWinners: [],
-    selectedWinners: [],
-    quarterfinalCount: 0,
-    semifinalCount: 0,
-    finalComplete: false,
-    hideWinners: false,
-    showNextRoundButton: false,
-    menuOpen: false,
-    flashingColor: null,
-    segments: [],
-    showForm: true,
-    showSpinButton: true,
-    showNewRoundButton: false,
-  };
-
   const {
     handleSpinStart,
     handleSpinEnd,
