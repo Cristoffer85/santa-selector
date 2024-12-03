@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Segment } from '../../Types/Types';
+import { Definitions } from '../../Types/Types';
 import { getRandomColor } from '../../Utils/RandomColor';
 import hohohoSound from '../../assets/hohoho.wav';
 
@@ -21,7 +21,7 @@ export const useAppHandlers = (initialState: any) => {
   const [finalComplete, setFinalComplete] = useState(initialState.finalComplete);
   const [menuOpen, setMenuOpen] = useState(initialState.menuOpen);
   const [flashingColor, setFlashingColor] = useState<string | null>(initialState.flashingColor);
-  const [segments, setSegments] = useState<Segment[]>(initialState.segments);
+  const [segments, setSegments] = useState<Definitions[]>(initialState.segments);
   const [showForm, setShowForm] = useState(initialState.showForm);
 
   const [showSpinButton, setShowSpinButton] = useState(initialState.showSpinButton);
@@ -46,7 +46,7 @@ export const useAppHandlers = (initialState: any) => {
     setFlashingColor(null);
   };
 
-  const handleSpinEnd = (winner: Segment) => {
+  const handleSpinEnd = (winner: Definitions) => {
     if (audio) {
       audio.play();
     }
