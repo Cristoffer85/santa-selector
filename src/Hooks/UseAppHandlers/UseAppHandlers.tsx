@@ -22,7 +22,6 @@ export const useAppHandlers = (initialState: any) => {
 
   const [finalComplete, setFinalComplete] = useState(initialState.finalComplete);
   const [menuOpen, setMenuOpen] = useState(initialState.menuOpen);
-  const [flashingColor, setFlashingColor] = useState<string | null>(initialState.flashingColor);
   const [segments, setSegments] = useState<Definitions[]>(initialState.segments);
   const [showForm, setShowForm] = useState(initialState.showForm);
 
@@ -55,7 +54,6 @@ export const useAppHandlers = (initialState: any) => {
     setShowNewRoundButton(false);
     setShowSpinButton(false);
     setWinnerName(null);
-    setFlashingColor(null);
     return true;
   };
 
@@ -64,7 +62,6 @@ export const useAppHandlers = (initialState: any) => {
       audio.play();
     }
 
-    setFlashingColor(winner.color);
     setSegments([winner]);
     setShowNewRoundButton(true);
     setWinnerName(winner.name);
@@ -79,7 +76,6 @@ export const useAppHandlers = (initialState: any) => {
           setStage('Semifinal');
           setSegments([]);
           setShowForm(false);
-          setFlashingColor(null); 
         }
       } else if (stage === 'Semifinal') {
         setSemifinalWinners((prevWinners) => [...prevWinners, winner.name]);
@@ -89,7 +85,6 @@ export const useAppHandlers = (initialState: any) => {
           setStage('Final');
           setSegments([]);
           setShowForm(false);
-          setFlashingColor(null); 
         }
       } else if (stage === 'Final') {
         setResults((prevResults) => [...prevResults, { stage: 'final', name: `Final: ${winner.name}` }]);
@@ -101,7 +96,6 @@ export const useAppHandlers = (initialState: any) => {
         setShowForm(true);
         setQuarterfinalCount(0); 
         setSemifinalCount(0); 
-        setFlashingColor(null); 
       }
     } else {
       setSimpleResults((prevResults) => [...prevResults, winner.name]);
@@ -110,7 +104,6 @@ export const useAppHandlers = (initialState: any) => {
   };
 
   const handleNewRound = () => {
-    setFlashingColor(null); 
     setShowForm(true);
     setShowNewRoundButton(false);
     setSegments([]);
@@ -131,33 +124,38 @@ export const useAppHandlers = (initialState: any) => {
         : prevSelected.length < 2
         ? [...prevSelected, winner]
         : prevSelected;
-
+  
       if (newSelected.length <= 2) {
-        setSegments(newSelected.map((name) => ({ name, color: getRandomColor() })));
+        setSegments(newSelected.map((name) => {
+          const existingSegment = segments.find(segment => segment.name === name);
+          return { name, color: existingSegment ? existingSegment.color : getRandomColor() };
+        }));
       }
-
+  
       if (newSelected.length === 2) {
         handleStartNextStage(newSelected);
         setHideWinners(true);
         setShowNextRoundButton(false);
       }
-
+  
       if (stage === 'Semifinal') {
         setQuarterfinalWinners((prevWinners) => prevWinners.filter((w) => w !== winner));
       } else if (stage === 'Final') {
         setSemifinalWinners((prevWinners) => prevWinners.filter((w) => w !== winner));
       }
-
+  
       return newSelected;
     });
   };
-
+  
   const handleStartNextStage = (winners: string[]) => {
-    setSegments(winners.map((name) => ({ name, color: getRandomColor() }))); 
+    setSegments(winners.map((name) => {
+      const existingSegment = segments.find(segment => segment.name === name);
+      return { name, color: existingSegment ? existingSegment.color : getRandomColor() };
+    }));
     setSelectedWinners([]);
     setShowSpinButton(true);
-    setFlashingColor(null); 
-
+  
     if (stage === 'Semifinal') {
       setQuarterfinalWinners((prevWinners) => prevWinners.filter((winner) => !winners.includes(winner)));
     } else if (stage === 'Final') {
@@ -183,7 +181,6 @@ export const useAppHandlers = (initialState: any) => {
     switchToSimpleMode,
     switchToDetailedMode,
     toggleMenu,
-    flashingColor,
     segments,
     showNewRoundButton,
     winnerName,
@@ -202,7 +199,6 @@ export const useAppHandlers = (initialState: any) => {
     showSpinButton,
     selectedWinners,
     menuOpen,
-    setFlashingColor,
     setSegments,
     winnersLeftToSelect,
   };

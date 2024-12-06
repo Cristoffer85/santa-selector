@@ -14,7 +14,6 @@ const initialState = {
     hideWinners: false,
     showNextRoundButton: false,
     menuOpen: false,
-    flashingColor: null,
     segments: [],
     showForm: true,
     showSpinButton: true,

@@ -37,10 +37,6 @@
   }
 }
 
-.flashing {
-  animation: flashColor 0.18s infinite; /* Flash every 0.18 seconds */
-}
-
 /* Media Queries for responsiveness */
 @media (max-width: 768px) {
   .segment-list {

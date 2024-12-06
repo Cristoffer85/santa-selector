@@ -7,7 +7,6 @@ import { Definitions } from '../../../Types/Types';
 
 interface WheelContainerProps {
   segments: Definitions[];
-  setFlashingColor: React.Dispatch<React.SetStateAction<string | null>>;
   handleSpinStart: () => boolean;
   handleSpinEnd: (winner: Definitions) => void;
   showSpinButton: boolean;
@@ -21,7 +20,6 @@ interface WheelContainerProps {
   handleWinnerSelection: (winner: string) => void;
   selectedWinners: string[];
   setSegments: (segments: Definitions[]) => void;
-  flashingColor: string | null;
   showNextRoundButton: boolean;
   handleNewRound: () => void;
   finalComplete: boolean;
@@ -29,7 +27,6 @@ interface WheelContainerProps {
 
 const WheelContainer: React.FC<WheelContainerProps> = ({
   segments,
-  setFlashingColor,
   handleSpinStart,
   handleSpinEnd,
   showSpinButton,
@@ -43,21 +40,22 @@ const WheelContainer: React.FC<WheelContainerProps> = ({
   handleWinnerSelection,
   selectedWinners,
   setSegments,
-  flashingColor,
   showNextRoundButton,
   handleNewRound,
   finalComplete,
-}) => (
-  <div className="wheel-and-form">
+}) => {
+  const buttonText = mode === 'Simple' ? 'New Round?' : 'Next Round';
+
+  return (
+    <div className="wheel-and-form">
     <WheelSpin
       segments={segments}
-      setFlashingColor={setFlashingColor}
       onSpinStart={handleSpinStart}
       onSpinEnd={handleSpinEnd}
       showSpinButton={showSpinButton}
     />
     {showForm && <WheelAddSegment segments={segments} setSegments={setSegments} />}
-    <ContenderList segments={segments} flashingColor={flashingColor} />
+    <ContenderList segments={segments} />
     {mode === 'Tournament' && stage !== 'Quarterfinal' && winnersLeftToSelect && !hideWinners && (
       <WinnerSelection
         stage={stage}
@@ -67,12 +65,18 @@ const WheelContainer: React.FC<WheelContainerProps> = ({
         selectedWinners={selectedWinners}
       />
     )}
-    {(showNextRoundButton || finalComplete) && (
+    {showNextRoundButton && !winnersLeftToSelect && !finalComplete && (
       <button onClick={handleNewRound} className="new-round-button">
-        Next Round
+        {buttonText}
+      </button>
+    )}
+    {finalComplete && (
+      <button onClick={handleNewRound} className="new-round-button">
+        {buttonText}
       </button>
     )}
   </div>
 );
+};
 
 export default WheelContainer;

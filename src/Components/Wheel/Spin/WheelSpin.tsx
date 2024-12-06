@@ -5,13 +5,12 @@ import { Definitions } from '../../../Types/Types';
 
 interface WheelProps {
   segments: Definitions[];
-  setFlashingColor: React.Dispatch<React.SetStateAction<string | null>>;
   onSpinStart: () => boolean;
   onSpinEnd: (winner: Definitions) => void;
   showSpinButton: boolean;
 }
 
-const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, onSpinEnd, showSpinButton }) => {
+const Wheel: React.FC<WheelProps> = ({ segments, onSpinStart, onSpinEnd, showSpinButton }) => {
   const wheelRef = useRef<HTMLDivElement>(null);
 
   const spinWheel = () => {
@@ -32,7 +31,6 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, 
           (segments.length - winningAngle / (360 / segments.length)) % segments.length
         );
         const winner = segments[selectedIndex];
-        setFlashingColor(winner.color);
         onSpinEnd(winner);
       }, 4000); 
     }

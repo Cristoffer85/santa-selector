@@ -1,12 +1,15 @@
-import { ToastContainer } from 'react-toastify';
-import { HiTrophy, HiOutlineTrophy } from 'react-icons/hi2';
+import { useEffect } from 'react';
+import initialState from './States/UseInitialState';
+import { useAppHandlers } from './Hooks/UseAppHandlers/UseAppHandlers';
+
 import Header from './Components/Header/Header';
 import ModeButtons from './Components/ModeButtons/ModeButtons';
 import ResultsList from './Components/ResultsList/ResultsList';
 import WheelContainer from './Components/Wheel/Container/WheelContainer';
+
+import { ToastContainer } from 'react-toastify';
+import { HiTrophy, HiOutlineTrophy } from 'react-icons/hi2';
 import claussleigh from './assets/claussleigh.gif';
-import { useAppHandlers } from './Hooks/UseAppHandlers/UseAppHandlers';
-import initialState from './States/UseInitialState';
 
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -19,7 +22,6 @@ const App = () => {
     switchToSimpleMode,
     switchToDetailedMode,
     toggleMenu,
-    flashingColor,
     segments,
     winnerName,
     hideWinners,
@@ -34,7 +36,6 @@ const App = () => {
     showSpinButton,
     selectedWinners,
     menuOpen,
-    setFlashingColor,
     setSegments,
     winnersLeftToSelect,
     handleNewRound,
@@ -42,7 +43,6 @@ const App = () => {
 
   const wheelContainerProps = {
     segments,
-    setFlashingColor,
     handleSpinStart,
     handleSpinEnd,
     showSpinButton,
@@ -56,11 +56,15 @@ const App = () => {
     handleWinnerSelection,
     selectedWinners,
     setSegments,
-    flashingColor,
-    showNextRoundButton, 
+    showNextRoundButton,
     handleNewRound,
     finalComplete,
   };
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = claussleigh;
+  }, []);
 
   return (
     <div className="app-container">
@@ -79,7 +83,7 @@ const App = () => {
             <div className="final-stage">
               <img src={claussleigh} alt="Final Winner" />
               <button onClick={handleNewRound} className="new-round-button">
-                Next Round
+                New Round?
               </button>
             </div>
           )}
