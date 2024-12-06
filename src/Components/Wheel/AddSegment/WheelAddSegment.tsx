@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './WheelAddSegment.css';
-import { Definitions } from '../../Types/Types';
-import { getRandomColor } from '../../Utils/RandomColor';
+import { Definitions } from '../../../Types/Types';
+import { getRandomColor } from '../../../Utils/RandomColor';
 
 const WheelAddSegment: React.FC<{ segments: Definitions[], setSegments: (segments: Definitions[]) => void }> = ({ segments, setSegments }) => {
   const [inputValue, setInputValue] = useState<string>('');

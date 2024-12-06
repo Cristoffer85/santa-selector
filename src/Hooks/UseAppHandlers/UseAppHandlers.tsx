@@ -3,6 +3,8 @@ import { Definitions } from '../../Types/Types';
 import { getRandomColor } from '../../Utils/RandomColor';
 import hohohoSound from '../../assets/hohoho.wav';
 
+import { toast } from 'react-toastify';
+
 export const useAppHandlers = (initialState: any) => {
   const switchToSimpleMode = () => setMode('Simple');
   const switchToDetailedMode = () => setMode('Tournament');
@@ -39,11 +41,22 @@ export const useAppHandlers = (initialState: any) => {
   }, []);
 
   const handleSpinStart = () => {
+    if (segments.length < 2) {
+      toast.error('You need to add minimum 2 Santa contenders!');
+      return false;
+    }
+  
+    /*if (!segments.some(segment => segment.name === "Lina")) {
+      toast.warn("Lina must be present to start Santa Selector.");
+      return false;
+    }*/
+
     setShowForm(false);
     setShowNewRoundButton(false);
     setShowSpinButton(false);
     setWinnerName(null);
     setFlashingColor(null);
+    return true;
   };
 
   const handleSpinEnd = (winner: Definitions) => {

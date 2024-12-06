@@ -1,13 +1,12 @@
 import React, { useRef } from 'react';
 import './WheelSpin.css';
-import arrowImage from '../../assets/wheelarrow.png';
-import { toast } from 'react-toastify';
-import { Definitions } from '../../Types/Types';
+import arrowImage from '../../../assets/wheelarrow.png';
+import { Definitions } from '../../../Types/Types';
 
 interface WheelProps {
   segments: Definitions[];
   setFlashingColor: React.Dispatch<React.SetStateAction<string | null>>;
-  onSpinStart: () => void;
+  onSpinStart: () => boolean;
   onSpinEnd: (winner: Definitions) => void;
   showSpinButton: boolean;
 }
@@ -16,13 +15,9 @@ const Wheel: React.FC<WheelProps> = ({ segments, setFlashingColor, onSpinStart, 
   const wheelRef = useRef<HTMLDivElement>(null);
 
   const spinWheel = () => {
-    if (segments.length < 2) {
-      toast.error('You need to add minimum 2 Santa contenders!');
-      return;
-    }
-
-    onSpinStart();
-
+    const canSpin = onSpinStart();
+    if (!canSpin) return;
+  
     const baseSpin = Math.floor(500 + Math.random() * 2000);
     const additionalSpins = Math.floor(3 + Math.random() * 5) * 360; 
     const randomSpin = baseSpin + additionalSpins; 
