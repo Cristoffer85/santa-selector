@@ -16,7 +16,7 @@ const WheelAddSegment: React.FC<{ segments: Definitions[], setSegments: (segment
         setSegments([...segments, newSegment]);
         setInputValue('');
       } else {
-        toast.error('Contender already exists! Please enter a unique Contender value!');
+        toast.error('Santa Contender value must be unique!');
       }
     }
   };
