@@ -28,9 +28,9 @@ const WheelAddSegment: React.FC<{ segments: Definitions[], setSegments: (segment
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder="add .Claus"
+          placeholder="add .Claus here"
         />
-        <button className="addcontender-button" onClick={handleAddSegment} title='Add Santa Contender!'>- Contender!</button>
+        <button className="addcontender-button" onClick={handleAddSegment} title='Add Santa Contender!'>Add Santa Contender!</button>
       </div>
       <ToastContainer />
     </div>
