@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Definitions } from '../../Types/Types';
 import { getRandomColor } from '../../Utils/RandomColor';
 import hohohoSound from '../../assets/hohoho.wav';
+import claussleigh from '../../assets/claussleigh.gif';
+import sleighbells from '../../assets/sleighbells.wav';
 
 import { toast } from 'react-toastify';
 
@@ -49,6 +51,12 @@ export const useAppHandlers = (initialState: any) => {
       toast.warn("Lina must be present to start Santa Selector.");
       return false;
     }*/
+
+    const img = new Image();
+    img.src = claussleigh;
+    
+    const sleighbellsAudio = new Audio(sleighbells);
+    sleighbellsAudio.load();
 
     setShowForm(false);
     setShowNewRoundButton(false);

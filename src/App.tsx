@@ -62,19 +62,11 @@ const App = () => {
     finalComplete,
   };
 
-  useEffect(() => {
-    const img = new Image();
-    img.src = claussleigh;
-  
-    const sleighbellsAudio = new Audio(sleighbells);
-    sleighbellsAudio.load();
-  }, []);
-
   return (
     <div className="app-container">
       {mode === 'Tournament' && <ResultsList results={results} />}
       <div className="app">
-        <Header winnerName={winnerName} stage={stage} showSpinButton={showSpinButton} finalComplete={finalComplete} />
+        <Header winnerName={winnerName} showSpinButton={showSpinButton} finalComplete={finalComplete} />
         <div className={`main-content ${finalComplete ? 'final-stage' : ''}`}>
           <div className={`left-column ${menuOpen ? 'hidden' : ''}`}>
             <ModeButtons mode={mode} switchToSimpleMode={switchToSimpleMode} switchToDetailedMode={switchToDetailedMode} />
