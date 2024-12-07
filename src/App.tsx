@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import initialState from './States/UseInitialState';
 import { useAppHandlers } from './Hooks/UseAppHandlers/UseAppHandlers';
 
