@@ -3,7 +3,7 @@ import initialState from './States/UseInitialState';
 import { useAppHandlers } from './Hooks/UseAppHandlers/UseAppHandlers';
 
 import Header from './Components/Header/Header';
-import ModeButtons from './Components/ModeButtons/ModeButtons';
+import ModeButtons from './Components/Modes/ModeButtons';
 import ResultsList from './Components/ResultsList/ResultsList';
 import WheelContainer from './Components/Wheel/Container/WheelContainer';
 
