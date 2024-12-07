@@ -61,12 +61,12 @@ export const useAppHandlers = (initialState: any) => {
     if (audio) {
       audio.play();
     }
-
+  
     setSegments([winner]);
     setShowNewRoundButton(true);
     setWinnerName(winner.name);
-    setHideWinners(false); 
-
+    setHideWinners(false);
+  
     if (mode === 'Tournament') {
       if (stage === 'Quarterfinal') {
         setQuarterfinalWinners((prevWinners) => [...prevWinners, winner.name]);
@@ -74,8 +74,8 @@ export const useAppHandlers = (initialState: any) => {
         setQuarterfinalCount(quarterfinalCount + 1);
         if (quarterfinalWinners.length + 1 === 4) {
           setStage('Semifinal');
-          setSegments([]);
           setShowForm(false);
+          setHideWinners(false);
         }
       } else if (stage === 'Semifinal') {
         setSemifinalWinners((prevWinners) => [...prevWinners, winner.name]);
@@ -83,8 +83,8 @@ export const useAppHandlers = (initialState: any) => {
         setSemifinalCount(semifinalCount + 1);
         if (semifinalWinners.length + 1 === 2) {
           setStage('Final');
-          setSegments([]);
           setShowForm(false);
+          setHideWinners(false);
         }
       } else if (stage === 'Final') {
         setResults((prevResults) => [...prevResults, { stage: 'final', name: `Final: ${winner.name}` }]);
@@ -96,13 +96,14 @@ export const useAppHandlers = (initialState: any) => {
         setShowForm(true);
         setQuarterfinalCount(0); 
         setSemifinalCount(0); 
+        setHideWinners(false);
       }
     } else {
       setSimpleResults((prevResults) => [...prevResults, winner.name]);
     }
     setShowNextRoundButton(true); 
   };
-
+  
   const handleNewRound = () => {
     setShowForm(true);
     setShowNewRoundButton(false);
@@ -134,7 +135,6 @@ export const useAppHandlers = (initialState: any) => {
   
       if (newSelected.length === 2) {
         handleStartNextStage(newSelected);
-        setHideWinners(true);
         setShowNextRoundButton(false);
       }
   
@@ -155,6 +155,7 @@ export const useAppHandlers = (initialState: any) => {
     }));
     setSelectedWinners([]);
     setShowSpinButton(true);
+    setHideWinners(false);
   
     if (stage === 'Semifinal') {
       setQuarterfinalWinners((prevWinners) => prevWinners.filter((winner) => !winners.includes(winner)));
