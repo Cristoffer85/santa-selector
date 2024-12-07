@@ -70,7 +70,7 @@ const App = () => {
     <div className="app-container">
       {mode === 'Tournament' && <ResultsList results={results} />}
       <div className="app">
-        <Header winnerName={winnerName} stage={stage} showSpinButton={showSpinButton} />
+        <Header winnerName={winnerName} stage={stage} showSpinButton={showSpinButton} finalComplete={finalComplete} />
         <div className={`main-content ${finalComplete ? 'final-stage' : ''}`}>
           <div className={`left-column ${menuOpen ? 'hidden' : ''}`}>
             <ModeButtons mode={mode} switchToSimpleMode={switchToSimpleMode} switchToDetailedMode={switchToDetailedMode} />
