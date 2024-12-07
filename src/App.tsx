@@ -10,6 +10,7 @@ import WheelContainer from './Components/Wheel/Container/WheelContainer';
 import { ToastContainer } from 'react-toastify';
 import { HiTrophy, HiOutlineTrophy } from 'react-icons/hi2';
 import claussleigh from './assets/claussleigh.gif';
+import sleighbells from './assets/sleighbells.wav';
 
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -64,6 +65,9 @@ const App = () => {
   useEffect(() => {
     const img = new Image();
     img.src = claussleigh;
+  
+    const sleighbellsAudio = new Audio(sleighbells);
+    sleighbellsAudio.load();
   }, []);
 
   return (
@@ -81,7 +85,10 @@ const App = () => {
           {!finalComplete && <WheelContainer {...wheelContainerProps} />}
           {finalComplete && (
             <div className="final-stage">
-              <img src={claussleigh} alt="Final Winner" />
+              <img src={claussleigh} alt="Final Winner" onLoad={() => {
+                const sleighbellsAudio = new Audio(sleighbells);
+                sleighbellsAudio.play();
+              }} />
               <button onClick={handleNewRound} className="new-round-button">
                 New Round?
               </button>

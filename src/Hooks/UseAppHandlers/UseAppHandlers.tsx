@@ -111,11 +111,11 @@ export const useAppHandlers = (initialState: any) => {
     setShowSpinButton(true);
     setWinnerName(null);
     if (finalComplete) {
-      setResults([]); 
+      setResults([]);
     }
-    setFinalComplete(false); 
-    setHideWinners(false); 
-    setShowNextRoundButton(false); 
+    setFinalComplete(false);
+    setHideWinners(false);
+    setShowNextRoundButton(false);
   };
 
   const handleWinnerSelection = (winner: string) => {
@@ -136,6 +136,7 @@ export const useAppHandlers = (initialState: any) => {
       if (newSelected.length === 2) {
         handleStartNextStage(newSelected);
         setShowNextRoundButton(false);
+        setHideWinners(true);
       }
   
       if (stage === 'Semifinal') {
