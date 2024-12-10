@@ -54,7 +54,14 @@ const WheelContainer: React.FC<WheelContainerProps> = ({
       onSpinEnd={handleSpinEnd}
       showSpinButton={showSpinButton}
     />
-    {showForm && <WheelAddSegment segments={segments} setSegments={setSegments} />}
+    {showForm && (
+      <WheelAddSegment
+        segments={segments}
+        setSegments={setSegments}
+        quarterfinalWinners={quarterfinalWinners}
+        semifinalWinners={semifinalWinners}
+      />
+    )}
     <ContenderList segments={segments} />
     {mode === 'Tournament' && stage !== 'Quarterfinal' && winnersLeftToSelect && !hideWinners && (
       <WinnerSelection
