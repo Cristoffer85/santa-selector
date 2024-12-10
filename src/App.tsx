@@ -71,7 +71,7 @@ const App = () => {
             <ModeButtons mode={mode} switchToSimpleMode={switchToSimpleMode} switchToDetailedMode={switchToDetailedMode} />
           </div>
           <div className="menu-toggle" onClick={toggleMenu}>
-            {menuOpen ? <HiTrophy /> : <HiOutlineTrophy />}
+            {menuOpen ? <HiOutlineTrophy /> : <HiTrophy />}
           </div>
           {!finalComplete && <WheelContainer {...wheelContainerProps} />}
           {finalComplete && (
